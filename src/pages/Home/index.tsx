@@ -99,6 +99,7 @@ const Home = () => {
 								value={pokeId}
 								onChange={(e) => setPokeId(e.target.value)}
 								disabled={disable}
+								autoFocus
 								className={`
                                 max-w-lg h-12 bg-transparent border-0 text-black
                                 text-sm outline outline-2 focus:outline-green-600 p-5
