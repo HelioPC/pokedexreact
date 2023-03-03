@@ -16,13 +16,9 @@ export const HomeScreen = styled.div`
 export const HomeInputArea = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 35px;
     margin: 0 0 80px 0;
     transition-duration: 500ms;
-
-    &:hover {
-        box-shadow: 1px 1px 3px 0px black;
-    }
 
     div {
         width: 100%;

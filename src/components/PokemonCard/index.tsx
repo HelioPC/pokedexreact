@@ -26,10 +26,10 @@ const PokemonCard = ({ name }: PokemonCardProps) => {
 	return (
 		pokemon ? (
 			<div className='w-full h-full rounded-md hover:shadow-xl shadow-lg duration-300 hover:scale-[1.02] cursor-pointer bg-white'>
-				<div className='w-full h-auto bg-[#EEE] rounded-t-md'>
+				<div className='w-full flex justify-center h-auto bg-[#f5f5f5] rounded-t-md'>
 					<img
 						src={pokemon?.sprites.front_default}
-						className='w-full h-48'
+						className='sm:w-full w-[60%] h-48'
 						onLoad={() => setImageLoading(false)}
 						onError={() => setTooManyRequests(true)}
 						style={
@@ -46,10 +46,10 @@ const PokemonCard = ({ name }: PokemonCardProps) => {
 							) : null
 					}
 				</div>
-				<div className='w-full px-5 py-2'>
+				<div className='w-full sm:px-5 px-2 sm:py-2 py-1'>
 					<p className='text-xs font-bold text-[#888]'>Nº: {formatNumber(pokemon.id)}</p>
 					<div className='w-full mt-1'>
-						<p>{pokemon.name}</p>
+						<p className='text-sm'>{pokemon.name}</p>
 					</div>
 				</div>
 			</div>

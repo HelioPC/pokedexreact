@@ -64,7 +64,7 @@ const Home = () => {
 
 	return (
 		<H.HomeScreen>
-			<H.HomeInputArea>
+			<H.HomeInputArea className='shadow-lg'>
 				<div>
 					<MdOutlineSearch size={24} color='#000' />
 					<input
