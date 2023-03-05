@@ -29,6 +29,11 @@ export type Pokemon = {
     abilities: {
         name: string
     }[]
+    types: {
+        type: {
+            name: string
+        }
+    }[]
     stats: Stats[]
     sprites: {
         back_default: string

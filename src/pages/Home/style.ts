@@ -30,7 +30,7 @@ export const HomeInputArea = styled.div`
         border-radius: 4px;
 
         svg {
-            margin: 0 8px;
+            margin: 0 20px;
         }
 
         input {

@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react'
 import { api } from '../../api'
 import { Pokemon } from '../../types/core'
 import { formatNumber } from '../../helpers/numbers'
+import TypeLabel from '../TypeLabel'
+import { Link } from 'react-router-dom'
 
 type PokemonCardProps = {
 	name: string
@@ -25,34 +27,43 @@ const PokemonCard = ({ name }: PokemonCardProps) => {
 
 	return (
 		pokemon ? (
-			<div className='w-full h-full rounded-md hover:shadow-xl shadow-lg duration-300 hover:scale-[1.02] cursor-pointer bg-white'>
-				<div className='w-full flex justify-center h-auto bg-[#f5f5f5] rounded-t-md'>
-					<img
-						src={pokemon?.sprites.front_default}
-						className='sm:w-full w-[60%] h-48'
-						onLoad={() => setImageLoading(false)}
-						onError={() => setTooManyRequests(true)}
-						style={
-							tooManyRequests ? { display: 'none' } :
-								imageLoading ? {} : { display: 'block' }
+			<Link to={`/pokemon/${pokemon.id}`} state={{ fromApp: true, pokemon: pokemon }}>
+				<div className='w-full h-full rounded-md hover:shadow-xl shadow-lg duration-300 hover:scale-[1.02] cursor-pointer bg-white'>
+					<div className='w-full flex justify-center h-auto bg-[#f5f5f5] rounded-t-md'>
+						<img
+							src={pokemon?.sprites.front_default}
+							className='sm:w-full w-[60%] h-48'
+							onLoad={() => setImageLoading(false)}
+							onError={() => setTooManyRequests(true)}
+							style={
+								tooManyRequests ? { display: 'none' } :
+									imageLoading ? {} : { display: 'block' }
+							}
+						/>
+						{
+							tooManyRequests ?
+								(
+									<h6 className='mx-auto'>
+										<span className='p-2 bg-red-500 mt-2'>Too many requests</span>
+									</h6>
+								) : null
 						}
-					/>
-					{
-						tooManyRequests ?
-							(
-								<h6 className='mx-auto'>
-									<span className='p-2 bg-red-500 mt-2'>Too many requests</span>
-								</h6>
-							) : null
-					}
-				</div>
-				<div className='w-full sm:px-5 px-2 sm:py-2 py-1'>
-					<p className='text-xs font-bold text-[#888]'>Nº: {formatNumber(pokemon.id)}</p>
-					<div className='w-full mt-1'>
-						<p className='text-sm'>{pokemon.name}</p>
+					</div>
+					<div className='w-full flex flex-col sm:items-start items-center sm:px-5 px-2 sm:py-2 py-1'>
+						<p className='text-xs font-bold text-[#888]'>Nº: {formatNumber(pokemon.id)}</p>
+						<div className='mt-1'>
+							<p className='text-sm'>{pokemon.name}</p>
+						</div>
+						<div className='flex sm:gap-2 md:gap-1 lg:gap-4 gap-1 mt-2'>
+							{
+								pokemon.types.map((t, i) => (
+									<TypeLabel key={i} name={t.type.name} />
+								))
+							}
+						</div>
 					</div>
 				</div>
-			</div>
+			</Link>
 		) : (
 			<div className='hidden' />
 		)
