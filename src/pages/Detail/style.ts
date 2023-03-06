@@ -25,6 +25,8 @@ export const DetailCardHeader = styled.div`
     height: 50px;
     padding: 16px;
     display: flex;
+    justify-content: space-between;
+    align-items: center;
     background-color: #FAFAFA;
 `
 
