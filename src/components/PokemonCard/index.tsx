@@ -17,9 +17,11 @@ const PokemonCard = ({ name }: PokemonCardProps) => {
 
 	useEffect(() => {
 		const fetchPokemon = async () => {
-			const data = await api.getPokemon(name)
+			try {
+				const data = await api.getPokemon(name)
 
-			if (data.status === 200) setPokemon(data.data)
+				if (data.status === 200) setPokemon(data.data)
+			} catch (error) { /* empty */ }
 		}
 
 		fetchPokemon()
@@ -28,11 +30,11 @@ const PokemonCard = ({ name }: PokemonCardProps) => {
 	return (
 		pokemon ? (
 			<Link to={`/pokemon/${pokemon.id}`} state={{ fromApp: true, pokemon: pokemon }}>
-				<div className='w-full h-full rounded-md hover:shadow-xl shadow-lg duration-300 hover:scale-[1.02] cursor-pointer bg-white'>
-					<div className='w-full flex justify-center h-auto bg-[#f5f5f5] rounded-t-md'>
+				<div className='w-full h-full rounded-md hover:shadow-xl shadow-lg duration-300 hover:scale-[1.02] cursor-pointer bg-white pb-2'>
+					<div className='w-full flex justify-center h-auto bg-[#f5f5f5] rounded-t-md overflow-hidden'>
 						<img
 							src={pokemon?.sprites.front_default}
-							className='sm:w-full w-[60%] h-48'
+							className='sm:w-full w-[60%] h-48 hover:scale-105 duration-300'
 							onLoad={() => setImageLoading(false)}
 							onError={() => setTooManyRequests(true)}
 							style={
