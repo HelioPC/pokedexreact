@@ -37,16 +37,18 @@ const Home = () => {
 	// Fetch all pokemons
 	useEffect(() => {
 		const fetchResults = async () => {
-			const data = await api.getPokemons()
+			try {
+				const data = await api.getPokemons(900)
 
-			if(data.status == 200) {
-				data.data.results.map((p: Pokemon) => {
-					setPokemons((pokemons => [...pokemons, p]))
-					setBackendPokemons((pokemons => [...pokemons, p]))
-				})
-			}
+				if(data.status == 200) {
+					data.data.results.map((p: Pokemon) => {
+						setPokemons((pokemons => [...pokemons, p]))
+						setBackendPokemons((pokemons => [...pokemons, p]))
+					})
+				}
 
-			else console.log('No pokemons available')
+				else console.log('No pokemons available')
+			} catch (error) { /* empty */ }
 		}
 
 		trackPromise(
@@ -66,7 +68,11 @@ const Home = () => {
 		<H.HomeScreen>
 			<H.HomeInputArea className='shadow-lg'>
 				<div>
-					<MdOutlineSearch size={24} color='#000' />
+					<MdOutlineSearch
+						size={24}
+						color='#000'
+						className='sm:mx-10 mx-2'
+					/>
 					<input
 						type='text'
 						value={inputSearch}

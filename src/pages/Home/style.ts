@@ -18,7 +18,6 @@ export const HomeInputArea = styled.div`
     flex-direction: column;
     gap: 35px;
     margin: 0 0 80px 0;
-    transition-duration: 500ms;
 
     div {
         width: 100%;
@@ -28,10 +27,6 @@ export const HomeInputArea = styled.div`
         align-items: center;
         justify-content: center;
         border-radius: 4px;
-
-        svg {
-            margin: 0 20px;
-        }
 
         input {
             width: 100%;
@@ -68,8 +63,8 @@ export const HomeGrid = styled.div<{ length: number }>`
     margin: 0 auto;
     display: grid;
     gap: 20px;
-    grid-template-columns: repeat(1, calc(100vw - 30px));
-    grid-template-rows: repeat(${props => props.length}, 286px);
+    grid-template-columns: repeat(1, calc(100vw - 10vw));
+    grid-template-rows: repeat(${props => props.length}, auto);
     
     @media (min-width: 576px) {
         max-width: 540px;
