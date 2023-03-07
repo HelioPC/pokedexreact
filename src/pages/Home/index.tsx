@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
-import { MdRepeat } from 'react-icons/md'
+import React, { useEffect, useState } from 'react'
+import { MdOutlineSearch } from 'react-icons/md'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
 import { ThreeDots } from 'react-loader-spinner'
 
-import { Pokemon } from '../../types/core'
 import { api } from '../../api'
-import { AlertError } from '../../utils/alert'
+import { Pokemon } from '../../types/core'
+import * as H from './style'
+import PokemonCard from '../../components/PokemonCard'
 
 const LoadingIndicator = () => {
 	const { promiseInProgress } = usePromiseTracker()
@@ -29,102 +30,73 @@ const LoadingIndicator = () => {
 }
 
 const Home = () => {
-	const [pokemon, setPokemon] = useState<Pokemon>()
-	const [disable, setDisable] = useState(false)
-	const [pokeId, setPokeId] = useState('')
+	const [backendpokemons, setBackendPokemons] = useState<Pokemon[]>([])
+	const [pokemons, setPokemons] = useState<Pokemon[]>([])
+	const [inputSearch, setInputSearch] = useState('')
 
-	const fecthPokemon = async () => {
-		setDisable(true)
+	// Fetch all pokemons
+	useEffect(() => {
+		const fetchResults = async () => {
+			try {
+				const data = await api.getPokemons(900)
 
-		if (Number.isNaN(parseInt(pokeId))) {
-			AlertError({
-				title: 'Erro',
-				description: 'Introduza um número válido'
-			})
-			return
+				if(data.status == 200) {
+					data.data.results.map((p: Pokemon) => {
+						setPokemons((pokemons => [...pokemons, p]))
+						setBackendPokemons((pokemons => [...pokemons, p]))
+					})
+				}
+
+				else console.log('No pokemons available')
+			} catch (error) { /* empty */ }
 		}
 
-		const data = await api.getPokemon(pokeId.toLowerCase())
-
-		if (data.status === 200) setPokemon({ ...data.data })
-	}
-
-	const handleClick = () => {
 		trackPromise(
-			fecthPokemon().then(() => setDisable(false))
+			// eslint-disable-next-line @typescript-eslint/no-empty-function
+			fetchResults().then(() => {})
 		)
-	}
+	}, [])
 
-	//if(pokemon != undefined) console.log(pokemon)
+	useEffect(() => {
+		if(inputSearch.length !== 0)
+			setPokemons(backendpokemons.filter((p) => p.name.toLowerCase().includes(inputSearch.toLowerCase())))
+		else
+			setPokemons(backendpokemons)
+	}, [inputSearch])
 
 	return (
-		<div className='w-screen min-h-screen flex justify-center items-center'>
-			{
-				!disable ? (
-					pokemon ? (
-						<div className='flex flex-col'>
-							<img
-								src={pokemon.sprites.front_default} alt='pokemon' className='w-40 h-40'
-							/>
-							<div className='flex gap-5'>
-								<p className='font-bold'>Id:</p>
-								<p>{pokemon.id}</p>
-							</div>
-							<div className='flex gap-5'>
-								<p className='font-bold'>Name:</p>
-								<p>{pokemon.name}</p>
-							</div>
-							<div className='flex gap-5'>
-								<p className='font-bold'>Height:</p>
-								<p>{pokemon.height} cm</p>
-							</div>
-							<div className='flex gap-5'>
-								<p className='font-bold'>Weight:</p>
-								<p>{pokemon.weight} kg</p>
-							</div>
-							<button
-								className='text-white rounded-md p-3 hover:scale-105 duration-300 bg-black cursor-pointer mt-10 flex justify-center items-center'
-								onClick={() => {
-									setPokeId('')
-									setPokemon(undefined)
-								}}
-							>
-								<MdRepeat size={20} />
-							</button>
-						</div>
-					) : (
-						<div className='flex flex-col gap-20'>
-							<input
-								placeholder='Id do pokemon'
-								value={pokeId}
-								onChange={(e) => setPokeId(e.target.value)}
-								disabled={disable}
-								autoFocus
-								className={`
-                                max-w-lg h-12 bg-transparent border-0 text-black
-                                text-sm outline outline-2 focus:outline-green-600 p-5
-                                rounded-md
-                                ${disable && 'cursor-not-allowed'}
-                            `}
-							/>
-							<button
-								className={`
-                                text-white rounded-md p-3 hover:scale-105 duration-300
-                                ${disable ?
-							'bg-[#AAA] cursor-not-allowed' :
-							'bg-black cursor-pointer'
+		<H.HomeScreen>
+			<H.HomeInputArea className='shadow-lg'>
+				<div>
+					<MdOutlineSearch
+						size={24}
+						color='#000'
+						className='sm:mx-10 mx-2'
+					/>
+					<input
+						type='text'
+						value={inputSearch}
+						onChange={(e) => setInputSearch(e.target.value)}
+					/>
+				</div>
+			</H.HomeInputArea>
+			{pokemons.length !== 0 ? (
+				<H.HomeMain>
+					<H.HomeGrid length={pokemons.length}>
+						{
+							pokemons.map((p, i) => (
+								<PokemonCard key={`${p.name}-${i}`} name={p.name} />
+							))
 						}
-                            `}
-								disabled={disable}
-								onClick={() => handleClick()}
-							>
-                                Get
-							</button>
-						</div>
-					)
-				) : (<LoadingIndicator />)
-			}
-		</div >
+					</H.HomeGrid>
+				</H.HomeMain>
+			) : (
+				<>
+					<div>No pokemons</div>
+					<LoadingIndicator />
+				</>
+			)}
+		</H.HomeScreen>
 	)
 }
 
