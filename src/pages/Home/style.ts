@@ -62,6 +62,7 @@ export const HomeFilterArea = styled.div`
 export const HomeMain = styled.div`
     display: flex;
     flex-direction: column;
+    align-items: center;
 `
 
 export const HomeMainHeader = styled.div`
@@ -80,15 +81,18 @@ export const HomeGrid = styled.div<{ length: number }>`
     @media (min-width: 576px) {
         max-width: 540px;
         grid-template-columns: repeat(2, 205px);
+        grid-template-rows: repeat(${props => Math.ceil(props.length/2)}, auto);
     }
 
     @media (min-width: 768px) {
         max-width: 720px;
         grid-template-columns: repeat(3, 205px);
+        grid-template-rows: repeat(${props => Math.ceil(props.length/3)}, auto);
     }
 
     @media (min-width: 1024px) {
         max-width: 992px;
         grid-template-columns: repeat(4, 205px);
+        grid-template-rows: repeat(${props => Math.ceil(props.length/4)}, auto);
     }
 `

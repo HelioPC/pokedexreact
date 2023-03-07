@@ -33,6 +33,7 @@ const Home = () => {
 	const [backendpokemons, setBackendPokemons] = useState<Pokemon[]>([])
 	const [pokemons, setPokemons] = useState<Pokemon[]>([])
 	const [inputSearch, setInputSearch] = useState('')
+	const [maxLength, setMaxLength] = useState(8)
 	const filterOptions = [
 		{
 			title: 'A-Z',
@@ -43,7 +44,7 @@ const Home = () => {
 			value: '1',
 		},
 	]
-	const [option, setOption] = useState('0')
+	const [option, setOption] = useState('')
 
 	// Fetch all pokemons
 	useEffect(() => {
@@ -121,7 +122,7 @@ const Home = () => {
 			<H.HomeFilterArea>
 				<button
 					name='filter'
-					className='bg-black text-white rounded-md py-2 px-4 focus:outline-none text-sm shadow-xl cursor-pointer m-5'
+					className='bg-black text-white rounded-md py-2 px-4 text-sm shadow-xl cursor-pointer m-5'
 					onClick={() => sortPokemons()}
 				>
 					Surprise me
@@ -144,13 +145,33 @@ const Home = () => {
 
 			{pokemons.length !== 0 ? (
 				<H.HomeMain>
-					<H.HomeGrid length={pokemons.length}>
+					<H.HomeGrid length={maxLength}>
 						{
-							pokemons.map((p, i) => (
+							pokemons.slice(0, maxLength).map((p, i) => (
 								<PokemonCard key={`${p.name}-${i}`} name={p.name} />
 							))
 						}
 					</H.HomeGrid>
+
+					<div
+						className={`
+							w-full xs:flex-row flex-col justify-center items-center my-5
+							${maxLength == backendpokemons.length || pokemons.length !== backendpokemons.length ? 'hidden' : 'flex'}
+						`}
+					>
+						<button
+							className='bg-black text-white rounded-md py-2 px-4 text-sm shadow-xl cursor-pointer m-5 max-w-[150px]'
+							onClick={() => setMaxLength(maxLength + 4)}
+						>
+							Load more
+						</button>
+						<button
+							className='bg-black text-white rounded-md py-2 px-4 text-sm shadow-xl cursor-pointer m-5 max-w-[150px]'
+							onClick={() => setMaxLength(backendpokemons.length)}
+						>
+							Load all
+						</button>
+					</div>
 				</H.HomeMain>
 			) : (
 				<>
