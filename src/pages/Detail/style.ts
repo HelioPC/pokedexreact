@@ -8,7 +8,7 @@ export const DetailScreen = styled.div`
     padding: 50px 20px;
 
     @media (max-width: 350px) {
-        padding: 50px 10px;
+        padding: 50px 2px;
     }
 `
 

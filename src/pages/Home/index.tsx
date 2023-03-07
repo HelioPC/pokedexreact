@@ -71,7 +71,7 @@ const Home = () => {
 					<MdOutlineSearch
 						size={24}
 						color='#000'
-						className='sm:mx-10 mx-2'
+						className='mr-2 ml-5'
 					/>
 					<input
 						type='text'
