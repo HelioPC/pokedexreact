@@ -17,7 +17,7 @@ export const HomeInputArea = styled.div`
     display: flex;
     flex-direction: column;
     gap: 35px;
-    margin: 0 0 80px 0;
+    margin: 0 0 40px 0;
 
     div {
         width: 100%;
@@ -45,6 +45,17 @@ export const HomeInputArea = styled.div`
         color: white;
         background-color: black;
         border-radius: 10px;
+    }
+`
+
+export const HomeFilterArea = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    @media (max-width: 350px) {
+        flex-direction: column;
     }
 `
 

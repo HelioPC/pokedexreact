@@ -33,6 +33,17 @@ const Home = () => {
 	const [backendpokemons, setBackendPokemons] = useState<Pokemon[]>([])
 	const [pokemons, setPokemons] = useState<Pokemon[]>([])
 	const [inputSearch, setInputSearch] = useState('')
+	const filterOptions = [
+		{
+			title: 'A-Z',
+			value: '0',
+		},
+		{
+			title: 'Z-A',
+			value: '1',
+		},
+	]
+	const [option, setOption] = useState('0')
 
 	// Fetch all pokemons
 	useEffect(() => {
@@ -40,7 +51,7 @@ const Home = () => {
 			try {
 				const data = await api.getPokemons(900)
 
-				if(data.status == 200) {
+				if (data.status == 200) {
 					data.data.results.map((p: Pokemon) => {
 						setPokemons((pokemons => [...pokemons, p]))
 						setBackendPokemons((pokemons => [...pokemons, p]))
@@ -53,16 +64,42 @@ const Home = () => {
 
 		trackPromise(
 			// eslint-disable-next-line @typescript-eslint/no-empty-function
-			fetchResults().then(() => {})
+			fetchResults().then(() => { })
 		)
 	}, [])
 
 	useEffect(() => {
-		if(inputSearch.length !== 0)
-			setPokemons(backendpokemons.filter((p) => p.name.toLowerCase().includes(inputSearch.toLowerCase())))
-		else
-			setPokemons(backendpokemons)
+		const filterSearchInput = () => {
+			if (inputSearch.length !== 0) {
+				setPokemons(backendpokemons.filter((p) => p.name.toLowerCase().includes(inputSearch.toLowerCase())))
+			}
+			else {
+				setPokemons(backendpokemons)
+			}
+		}
+		filterSearchInput()
 	}, [inputSearch])
+
+	useEffect(() => {
+		switch (option) {
+		case filterOptions[0].value:
+			setPokemons([...backendpokemons].sort((a, b) => a.name > b.name ? 1 : -1))
+			break
+
+		case filterOptions[1].value:
+			setPokemons([...backendpokemons].sort((a, b) => a.name < b.name ? 1 : -1))
+			break
+
+		default:
+			setPokemons(backendpokemons)
+			break
+		}
+	}, [option])
+
+	const sortPokemons = () => {
+		const sorted = [...pokemons].sort(() => Math.random() - 0.5)
+		setPokemons(sorted)
+	}
 
 	return (
 		<H.HomeScreen>
@@ -80,6 +117,31 @@ const Home = () => {
 					/>
 				</div>
 			</H.HomeInputArea>
+
+			<H.HomeFilterArea>
+				<button
+					name='filter'
+					className='bg-black text-white rounded-md py-2 px-4 focus:outline-none text-sm shadow-xl cursor-pointer m-5'
+					onClick={() => sortPokemons()}
+				>
+					Surprise me
+				</button>
+				<select
+					name='filter'
+					className='bg-black text-white rounded-md py-2 px-4 focus:outline-none text-sm shadow-xl m-5'
+					onChange={(e) => setOption(e.target.value)}
+				>
+					<option value=''>
+						All
+					</option>
+					{
+						filterOptions.map((o, i) => (
+							<option key={i} value={o.value}>{o.title}</option>
+						))
+					}
+				</select>
+			</H.HomeFilterArea>
+
 			{pokemons.length !== 0 ? (
 				<H.HomeMain>
 					<H.HomeGrid length={pokemons.length}>
