@@ -19,6 +19,9 @@ export type Species = {
         name: string
     }[]
     hatch_counter: number
+    color: {
+        name: string
+    }
 }
 
 export type Pokemon = {
@@ -27,7 +30,14 @@ export type Pokemon = {
     height: number
     weight: number
     abilities: {
-        name: string
+        ability: {
+            name: string
+        }
+    }[]
+    types: {
+        type: {
+            name: string
+        }
     }[]
     stats: Stats[]
     sprites: {
