@@ -24,16 +24,26 @@ const Detail = () => {
 	const navigate = useNavigate()
 
 	useEffect(() => {
-		if (!location.state?.fromApp) {
+		if (!location.state) {
 			navigate('/')
+			return
+		} else {
+			if (!location.state.fromApp) {
+				navigate('/')
+			}
+			if (!location.state.pokemon) {
+				navigate('/')
+			}
 		}
 	}, [])
 
 	return (
-		location.state.pokemon && (
+		location.state?.pokemon ? (
 			<D.DetailScreen>
 				<DetailCardComponent pokemon={location.state.pokemon} />
 			</D.DetailScreen>
+		) : (
+			<div>Erro</div>
 		)
 	)
 }

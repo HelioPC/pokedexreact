@@ -5,7 +5,7 @@ import Home from './pages/Home'
 
 const App = () => {
 	return (
-		<BrowserRouter>
+		<BrowserRouter basename='/pokedex'>
 			<Routes>
 				<Route path='/' element={<Home />} />
 				<Route path='/pokemon/:id' element={<Detail />} />
