@@ -4,6 +4,8 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { MdMale, MdFemale } from 'react-icons/md'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
 import { ThreeDots } from 'react-loader-spinner'
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
+import { Pie } from 'react-chartjs-2'
 
 import { formatNumber } from '../../helpers/numbers'
 import { Pokemon, Species } from '../../types/core'
@@ -14,6 +16,8 @@ import { api } from '../../api'
 type CardComponentProps = {
 	pokemon: Pokemon
 }
+
+ChartJS.register(ArcElement, Tooltip, Legend)
 
 const Detail = () => {
 	const location = useLocation()
@@ -77,6 +81,33 @@ const DetailCardComponent = ({ pokemon }: CardComponentProps) => {
 		)
 	}, [])
 
+	const data = {
+		labels: pokemon.stats.map((s) => s.stat.name),
+		datasets: [
+			{
+				label: '# of Votes',
+				data: pokemon.stats.map((s) => s.base_stat),
+				backgroundColor: [
+					'rgba(75, 192, 120, 0.2)',
+					'rgba(255, 99, 132, .2)',
+					'rgba(25, 88, 236, 0.2)',
+					'rgba(199, 102, 255, 0.2)',
+					'rgba(86, 255, 252, 0.2)',
+					'rgba(255, 159, 64, .2)',
+				],
+				borderColor: [
+					'rgba(75, 192, 120, 1)',
+					'rgba(255, 99, 132, 1)',
+					'rgba(25, 88, 236, 1)',
+					'rgba(199, 102, 255, 1)',
+					'rgba(86, 255, 252, 1)',
+					'rgba(255, 159, 64, 1)',
+				],
+				borderWidth: 2,
+			},
+		],
+	}
+
 	return (
 		<D.DetailCard className='shadow-xl'>
 			<D.DetailCardHeader className='shadow'>
@@ -96,7 +127,7 @@ const DetailCardComponent = ({ pokemon }: CardComponentProps) => {
 			</D.DetailCardHeader>
 
 			<D.DetailCardBody>
-				<div className='grid md:grid-cols-[repeat(2,50%)] grid-cols-[repeat(1,100%)] md:grid-rows-[repeat(2,250px)] grid-rows-[repeat(4,auto)]'>
+				<div className='grid md:grid-cols-[repeat(2,50%)] grid-cols-[repeat(1,100%)] md:grid-rows-[repeat(2,290px)] grid-rows-[repeat(4,auto)]'>
 					<div className='w-full h-full flex justify-center items-center px-5 py-2 overflow-hidden'>
 						<img
 							src={pokemon.sprites.front_default}
@@ -118,7 +149,10 @@ const DetailCardComponent = ({ pokemon }: CardComponentProps) => {
 								descriptions.map((d, i) => (
 									<div
 										key={i}
-										className='sm:h-3 h-2 sm:w-3 w-2 bg-black rounded-[50%] cursor-pointer'
+										className={`
+											sm:h-3 h-2 sm:w-3 w-2 rounded-[50%] cursor-pointer
+											${d == currentDescription ? 'bg-white border-2 border-solid border-black' : 'bg-black'}
+										`}
 										onClick={() => setCurrentDescription(descriptions[i])}
 									/>
 								))
@@ -162,19 +196,21 @@ const DetailCardComponent = ({ pokemon }: CardComponentProps) => {
 							)
 						}
 					</div>
-					<div className='w-full h-full'>
+					<div className='w-full h-full flex justify-center p-5'>
 						{
 							pokemonSpecies ? (
-								<p></p>
+								<Pie data={data} />
 							) : (
 								<LoadingIndicator />
 							)
 						}
 					</div>
 				</div>
-				<div className='w-full min-h-[200px] bg-[#FF0]'>
+				{/*
+					<div className='w-full min-h-[200px] bg-[#000] rounded-t-lg shadow-lg'>
 
-				</div>
+					</div>
+				*/}
 			</D.DetailCardBody>
 
 			<D.DetailCardFooter>
@@ -184,7 +220,7 @@ const DetailCardComponent = ({ pokemon }: CardComponentProps) => {
 					alt='api'
 				/>
 				<p className='text-xs'>
-					Pokedex by <a href='https://github.com/HelioPC'>HelioPC</a>
+					Pokedex by <a href='https://github.com/HelioPC' className='font-bold text-blue-600'>HelioPC</a>
 				</p>
 			</D.DetailCardFooter>
 		</D.DetailCard>
