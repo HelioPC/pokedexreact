@@ -4,7 +4,8 @@ import { ThreeDots } from 'react-loader-spinner'
 import { MdKeyboardArrowRight, MdKeyboardArrowDown } from 'react-icons/md'
 import { api } from '../../api'
 import { Pokemon } from '../../types/core'
-import { PokemonEvolutionCard } from '../PokemonCard'
+import PokemonEvolutionCard from '../PokemonEvolutionCard'
+import { Tooltip } from '@mui/material'
 
 type ComponentProps = {
 	url: string
@@ -54,24 +55,39 @@ const EvolutionChain = ({ url }: ComponentProps) => {
 
 	return (
 		fetched && pokemons.length != 0 ? (
-			<div className='w-full flex md:flex-row flex-col justify-center items-center gap-5 min-h-[200px] shadow-lg border-t-2 border-black py-4'>
-				{
-					pokemons.map((p, i) => (
-						<div key={i} className='flex md:flex-row flex-col items-center gap-5'>
-							<PokemonEvolutionCard pokemon={p} />
-							{
-								i < pokemons.length - 1 && (
-									<MdKeyboardArrowRight size={30} className='md:block hidden' />
-								)
-							}
-							{
-								i < pokemons.length - 1 && (
-									<MdKeyboardArrowDown size={30} className='md:hidden block' />
-								)
-							}
-						</div>
-					))
-				}
+			<div className='w-full min-h-[200px] bg-transparent rounded-lg border-t-2 border-black py-4'>
+				<h1 className='text-center text-xl font-bold my-5'>Evolution chain</h1>
+				<div className='flex md:flex-row flex-col justify-center items-center gap-5'>
+					{
+						pokemons.map((p, i, self) => (
+							<div key={i} className='flex md:flex-row flex-col items-center gap-5'>
+								<PokemonEvolutionCard pokemon={p} />
+								{
+									i < pokemons.length - 1 && (
+										<Tooltip
+											title={`${p.name} evolves into ${self[i + 1].name}`}
+										>
+											<div>
+												<MdKeyboardArrowRight size={30} className='md:block hidden' />
+											</div>
+										</Tooltip>
+									)
+								}
+								{
+									i < pokemons.length - 1 && (
+										<Tooltip
+											title={`${p.name} evolves into ${self[i + 1].name}`}
+										>
+											<div>
+												<MdKeyboardArrowDown size={30} className='md:hidden block' />
+											</div>
+										</Tooltip>
+									)
+								}
+							</div>
+						))
+					}
+				</div>
 			</div>
 		) : (
 			<LoadingIndicator />
@@ -96,9 +112,7 @@ const LoadingIndicator = () => {
 						visible={true}
 					/>
 				</div>
-			) : (
-				<div className='hidden' />
-			)
+			) : null
 	)
 }
 
