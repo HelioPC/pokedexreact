@@ -42,14 +42,6 @@ const PokemonCard = ({ name }: PokemonCardProps) => {
 									imageLoading ? {} : { display: 'block' }
 							}
 						/>
-						{
-							tooManyRequests ?
-								(
-									<h6 className='mx-auto'>
-										<span className='p-2 bg-red-500 mt-2'>Too many requests</span>
-									</h6>
-								) : null
-						}
 					</div>
 					<div className='w-full flex flex-col sm:items-start items-center sm:px-5 px-2 sm:py-2 py-1'>
 						<p className='text-xs font-bold text-[#888]'>Nº: {formatNumber(pokemon.id)}</p>

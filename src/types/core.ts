@@ -22,6 +22,9 @@ export type Species = {
     color: {
         name: string
     }
+    evolution_chain: {
+        url: string
+    }
 }
 
 export type Pokemon = {
