@@ -25,7 +25,10 @@ const EvolutionChain = ({ url }: ComponentProps) => {
 				pokemonsNames.push(evoData.species.name)
 
 				do {
-					pokemonsNames.push(evoData.evolves_to[0].species.name)
+					// eslint-disable-next-line @typescript-eslint/no-explicit-any
+					evoData.evolves_to.map((p: any) => {
+						pokemonsNames.push(p.species.name)
+					})
 					evoData = evoData.evolves_to[0]
 				} while (evoData.evolves_to.length > 0 && Object.prototype.hasOwnProperty.call(evoData, 'evolves_to'))
 
