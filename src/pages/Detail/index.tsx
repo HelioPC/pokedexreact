@@ -13,6 +13,7 @@ import { Pokemon, Species } from '../../types/core'
 import pokeApiImg from '../../assets/logo.png'
 import * as D from './style'
 import { api } from '../../api'
+import EvolutionChain from '../../components/EvolutionChain'
 
 type CardComponentProps = {
 	pokemon: Pokemon
@@ -139,13 +140,13 @@ const DetailCardComponent = ({ pokemon }: CardComponentProps) => {
 
 			<D.DetailCardBody>
 				<div className='grid md:grid-cols-[repeat(2,50%)] grid-cols-[repeat(1,100%)] md:grid-rows-[repeat(2,290px)] grid-rows-[repeat(4,auto)]'>
-					<div className='w-full h-full flex justify-center items-center px-5 py-2 overflow-hidden'>
+					<div className='w-full h-full flex justify-center items-center px-5 py-2 overflow-hidden md:border-r-2 md:border-b-2 border-black'>
 						<img
 							src={pokemon.sprites.front_default}
 							className='xs:w-[calc(100%-40%)] w-full h-[calc(100%-10px)] shadow-lg xs:hover:scale-105 xs:duration-300'
 						/>
 					</div>
-					<div className='w-full h-full flex flex-col items-center xs:px-10 px-5'>
+					<div className='w-full h-full flex flex-col items-center xs:px-10 px-5 md:border-l-2 md:border-b-2 border-black'>
 						{
 							pokemonSpecies ? (
 								<p className='text-sm md:text-start text-center font-bold md:my-auto my-8'>
@@ -175,7 +176,7 @@ const DetailCardComponent = ({ pokemon }: CardComponentProps) => {
 							}
 						</div>
 					</div>
-					<div className='w-full h-full min-h-[250px] grid lg:grid-cols-4 lg:grid-rows-1 xs:grid-cols-[repeat(2,150px)] md:grid-rows-2 sm:grid-rows-1 xs:grid-rows-2 grid-cols-[repeat(1,150px)] grid-rows-4 gap-3 px-5 py-10 justify-center'>
+					<div className='w-full h-full min-h-[250px] grid lg:grid-cols-4 lg:grid-rows-1 xs:grid-cols-[repeat(2,150px)] md:grid-rows-2 sm:grid-rows-1 xs:grid-rows-2 grid-cols-[repeat(1,150px)] grid-rows-4 gap-3 px-5 py-10 justify-center md:border-r-2 md:border-y-2 border-black'>
 						{
 							pokemonSpecies ? (
 								<>
@@ -212,7 +213,7 @@ const DetailCardComponent = ({ pokemon }: CardComponentProps) => {
 							)
 						}
 					</div>
-					<div className='w-full h-full flex justify-center p-5'>
+					<div className='w-full h-full flex justify-center p-5 md:border-l-2 md:border-y-2 border-black'>
 						{
 							pokemonSpecies ? (
 								<Pie data={data} />
@@ -222,11 +223,7 @@ const DetailCardComponent = ({ pokemon }: CardComponentProps) => {
 						}
 					</div>
 				</div>
-				{/*
-					<div className='w-full min-h-[200px] bg-[#000] rounded-t-lg shadow-lg'>
-
-					</div>
-				*/}
+				{ pokemonSpecies && <EvolutionChain url={pokemonSpecies.evolution_chain.url} />}
 			</D.DetailCardBody>
 
 			<D.DetailCardFooter>
