@@ -10,9 +10,7 @@ const Carousel = ({ data }: Props) => {
 
 	return (
 		<div className='w-full h-full flex flex-col items-center xs:px-10 px-5'>
-			<div
-				className='w-full my-auto flex overflow-hidden'
-			>
+			<div className='w-full my-auto flex overflow-hidden'>
 				{
 					data.map((d, i) => (
 						<div

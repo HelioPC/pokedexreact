@@ -113,6 +113,7 @@ const Home = () => {
 					/>
 					<input
 						type='text'
+						placeholder='Find by name'
 						value={inputSearch}
 						onChange={(e) => setInputSearch(e.target.value)}
 					/>
