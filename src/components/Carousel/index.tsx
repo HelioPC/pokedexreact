@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Tooltip as MuiTip } from '@mui/material'
+import Tooltip from '@mui/material/Tooltip'
 
 type Props = {
 	data: string[]
@@ -30,8 +30,8 @@ const Carousel = ({ data }: Props) => {
 			</div>
 			<div className='flex gap-4 md:my-auto my-8'>
 				{
-					data.map((d, i) => (
-						<MuiTip
+					data.length > 1 ? data.map((d, i) => (
+						<Tooltip
 							key={i}
 							title={d.slice(0, 20) + '...'}
 							placement='top'
@@ -43,8 +43,8 @@ const Carousel = ({ data }: Props) => {
 										`}
 								onClick={() => setIndex(i)}
 							/>
-						</MuiTip>
-					))
+						</Tooltip>
+					)) : null
 				}
 			</div>
 		</div>

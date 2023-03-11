@@ -16,8 +16,8 @@ const PokemonEvolutionCard = ({ pokemon }: PokemonEvolutioCardProps) => {
 
 	return (
 		<Link to={`/pokemon/${pokemon.id}`} state={{ fromApp: true, pokemon: pokemon }}>
-			<div className='w-full h-full cursor-pointer pb-2 hover:shadow duration-300 rounded-md p-4'>
-				<div className='w-full flex justify-center h-auto bg-[#f5f5f5] rounded-[50%] overflow-hidden'>
+			<div className='w-full h-full cursor-pointer pb-2 hover:shadow-lg shadow sm:hover:scale-[1.01] duration-300 rounded-md p-4'>
+				<div className='w-full flex justify-center h-auto bg-transparent overflow-hidden'>
 					<img
 						src={`${BASE_IMAGE_URL}${pokemon.id}.png`}
 						className='h-48'

@@ -91,11 +91,10 @@ const DetailCardComponent = ({ pokemon }: CardComponentProps) => {
 								/>
 							</div>
 							<Carousel data={descriptions} />
-							<div className='w-full h-full min-h-[250px] grid lg:grid-cols-4 lg:grid-rows-1 xs:grid-cols-[repeat(2,150px)] md:grid-rows-2 sm:grid-rows-1 xs:grid-rows-2 grid-cols-[repeat(1,150px)] grid-rows-4 gap-3 px-5 py-10 justify-center'>
+							<div className='w-full h-full min-h-[250px] grid xs:grid-cols-2 xs:grid-rows-2 grid-cols-[repeat(1,150px)] grid-rows-4 gap-5 p-5'>
 								<BasicInfo
 									height={pokemon.height}
 									weight={pokemon.weight}
-									abilities={pokemon.abilities}
 									gender_rate={pokemonSpecies.gender_rate}
 								/>
 							</div>
@@ -107,6 +106,16 @@ const DetailCardComponent = ({ pokemon }: CardComponentProps) => {
 						<LoadingIndicator />
 					)
 				}
+				{/* TODO: Add abilities and catch rate
+				<div className='bg-[#DCDCDC] w-full h-56 grid grid-cols-2 grid-rows-1'>
+					<div className='w-full h-full flex flex-col'>
+
+					</div>
+					<div className='w-full h-full flex'>
+
+					</div>
+				</div>
+			*/}
 				{pokemonSpecies && <EvolutionChain url={pokemonSpecies.evolution_chain.url} />}
 			</D.DetailCardBody>
 
