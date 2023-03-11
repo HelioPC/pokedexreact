@@ -4,6 +4,7 @@ import { Pokemon } from '../../types/core'
 import { formatNumber } from '../../helpers/numbers'
 import TypeLabel from '../TypeLabel'
 import { Link } from 'react-router-dom'
+import { BASE_IMAGE_URL } from '../../api'
 
 type PokemonEvolutioCardProps = {
 	pokemon: Pokemon
@@ -18,8 +19,8 @@ const PokemonEvolutionCard = ({ pokemon }: PokemonEvolutioCardProps) => {
 			<div className='w-full h-full cursor-pointer pb-2 hover:shadow duration-300 rounded-md p-4'>
 				<div className='w-full flex justify-center h-auto bg-[#f5f5f5] rounded-[50%] overflow-hidden'>
 					<img
-						src={pokemon?.sprites.front_default}
-						className='sm:w-full w-full h-48'
+						src={`${BASE_IMAGE_URL}${pokemon.id}.png`}
+						className='h-48'
 						onLoad={() => setImageLoading(false)}
 						onError={() => setTooManyRequests(true)}
 						style={

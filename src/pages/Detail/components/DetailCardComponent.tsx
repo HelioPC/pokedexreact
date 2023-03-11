@@ -7,7 +7,7 @@ import { ThreeDots } from 'react-loader-spinner'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 import { Pie } from 'react-chartjs-2'
 import { Pokemon, Species } from '../../../types/core'
-import { api } from '../../../api'
+import { api, BASE_IMAGE_URL } from '../../../api'
 import EvolutionChain from '../../../components/EvolutionChain'
 import { formatNumber } from '../../../helpers/numbers'
 import PieChartColors from '../data'
@@ -94,7 +94,7 @@ const DetailCardComponent = ({ pokemon }: CardComponentProps) => {
 				<div className='grid md:grid-cols-[repeat(2,50%)] grid-cols-[repeat(1,100%)] md:grid-rows-[repeat(2,290px)] grid-rows-[repeat(4,auto)]'>
 					<div className='w-full h-full flex justify-center items-center px-5 py-2 overflow-hidden'>
 						<img
-							src={pokemon.sprites.front_default}
+							src={`${BASE_IMAGE_URL}${pokemon.id}.png`}
 							className='xs:w-[calc(100%-40%)] w-full h-[calc(100%-10px)] shadow-lg xs:hover:scale-105 xs:duration-300'
 						/>
 					</div>
