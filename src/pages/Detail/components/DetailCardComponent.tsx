@@ -1,20 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { Tooltip as MuiTip } from '@mui/material'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
 import { ThreeDots } from 'react-loader-spinner'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 import { Pie } from 'react-chartjs-2'
+
 import { Pokemon, Species } from '../../../types/core'
 import { api, BASE_IMAGE_URL } from '../../../api'
 import EvolutionChain from '../../../components/EvolutionChain'
-import { formatNumber } from '../../../helpers/numbers'
 import PieChartColors from '../data'
 import BasicInfo from './BasicInfo'
 import * as D from '../style'
 import pokeApiImg from '../../../assets/logo.png'
 import Carousel from '../../../components/Carousel'
+import CardHeader from './CardHeader'
+import CardFooter from './CardFooter'
 
 type CardComponentProps = {
 	pokemon: Pokemon
@@ -74,80 +74,43 @@ const DetailCardComponent = ({ pokemon }: CardComponentProps) => {
 
 	return (
 		<D.DetailCard className='shadow-xl'>
-			<D.DetailCardHeader className='shadow xs:justify-between justify-center'>
-				<Link to='/'>
-					<img
-						src={pokeApiImg}
-						className='h-8 rounded-full'
-						alt='api'
-					/>
-				</Link>
-				<p className='text-sm xs:block hidden'>
-					Name: <label className='text-sm font-bold'>{pokemon.name}</label>
-				</p>
-				<p className='text-sm font-bold xs:block hidden'>
-					{formatNumber(pokemon.id)}
-				</p>
-			</D.DetailCardHeader>
+			<CardHeader
+				name={pokemon.name}
+				imageUrl={pokeApiImg}
+				id={pokemon.id}
+			/>
 
 			<D.DetailCardBody>
-				<div className='grid md:grid-cols-[repeat(2,50%)] grid-cols-[repeat(1,100%)] md:grid-rows-[repeat(2,290px)] grid-rows-[repeat(4,auto)]'>
-					<div className='w-full h-full flex justify-center items-center px-5 py-2 overflow-hidden'>
-						<img
-							src={`${BASE_IMAGE_URL}${pokemon.id}.png`}
-							className='xs:w-[calc(100%-40%)] w-full h-[calc(100%-10px)] shadow-lg xs:hover:scale-105 xs:duration-300'
-						/>
-					</div>
-					{
-						pokemonSpecies ? (
+				{
+					pokemonSpecies ? (
+						<div className='grid md:grid-cols-[repeat(2,50%)] grid-cols-[repeat(1,100%)] md:grid-rows-[repeat(2,290px)] grid-rows-[repeat(4,auto)] my-0'>
+							<div className='w-full h-full flex justify-center items-center px-5 py-2 overflow-hidden'>
+								<img
+									src={`${BASE_IMAGE_URL}${pokemon.id}.png`}
+									className='h-[calc(100%-10px)] shadow-lg xs:hover:scale-105 xs:duration-300'
+								/>
+							</div>
 							<Carousel data={descriptions} />
-						) : (
-							<LoadingIndicator />
-						)
-					}
-					<div className='w-full h-full min-h-[250px] grid lg:grid-cols-4 lg:grid-rows-1 xs:grid-cols-[repeat(2,150px)] md:grid-rows-2 sm:grid-rows-1 xs:grid-rows-2 grid-cols-[repeat(1,150px)] grid-rows-4 gap-3 px-5 py-10 justify-center'>
-						{
-							pokemonSpecies ? (
+							<div className='w-full h-full min-h-[250px] grid lg:grid-cols-4 lg:grid-rows-1 xs:grid-cols-[repeat(2,150px)] md:grid-rows-2 sm:grid-rows-1 xs:grid-rows-2 grid-cols-[repeat(1,150px)] grid-rows-4 gap-3 px-5 py-10 justify-center'>
 								<BasicInfo
 									height={pokemon.height}
 									weight={pokemon.weight}
 									abilities={pokemon.abilities}
 									gender_rate={pokemonSpecies.gender_rate}
 								/>
-							) : (
-								<LoadingIndicator />
-							)
-						}
-					</div>
-					<div className='w-full h-full flex justify-center p-5'>
-						{
-							pokemonSpecies ? (
+							</div>
+							<div className='w-full h-full flex justify-center p-5'>
 								<Pie data={data} />
-							) : (
-								<LoadingIndicator />
-							)
-						}
-					</div>
-				</div>
+							</div>
+						</div>
+					) : (
+						<LoadingIndicator />
+					)
+				}
 				{pokemonSpecies && <EvolutionChain url={pokemonSpecies.evolution_chain.url} />}
 			</D.DetailCardBody>
 
-			<D.DetailCardFooter>
-				<img
-					src={pokeApiImg}
-					className='h-8 rounded-full'
-					alt='api'
-				/>
-				<p className='text-xs'>
-					Pokedex by
-					<MuiTip
-						title='A brilliant software developer'
-						placement='top'
-					>
-						<a href='https://github.com/HelioPC' className='font-bold text-blue-600'> HelioPC</a>
-					</MuiTip>
-				</p>
-			</D.DetailCardFooter>
+			<CardFooter imageUrl={pokeApiImg} />
 		</D.DetailCard>
 	)
 }
