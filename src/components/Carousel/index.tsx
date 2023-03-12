@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Tooltip from '@mui/material/Tooltip'
 
 type Props = {
@@ -7,6 +7,22 @@ type Props = {
 
 const Carousel = ({ data }: Props) => {
 	const [index, setIndex] = useState(0)
+
+	useEffect(() => {
+		setInterval(increment, 7000)
+		const stop = data.length
+		let i = 0
+
+		function increment() {
+			i = i + 1
+
+			if (i === stop) {
+				i = 0
+			}
+
+			setIndex(i)
+		}
+	}, [])
 
 	return (
 		<div className='w-full h-full flex flex-col items-center xs:px-10 px-5'>
