@@ -8,33 +8,22 @@ import { Pokemon } from '../../types/core'
 import * as H from './style'
 import PokemonCard from '../../components/PokemonCard'
 
-const LoadingIndicator = () => {
-	const { promiseInProgress } = usePromiseTracker()
-
-	return (
-		promiseInProgress ?
-			(
-				<ThreeDots
-					height='80'
-					width='80'
-					radius='9'
-					color='#282936'
-					ariaLabel='three-dots-loading'
-					wrapperStyle={{}}
-					visible={true}
-				/>
-			) : (
-				<div className='hidden' />
-			)
-	)
-}
+const LOCALSTORAGEFILTERKEY = 'pokeFilterKey'
+const LOCALSTORAGESEARCHKEY = 'pokeSearchKey'
 
 const Home = () => {
 	const [backendpokemons, setBackendPokemons] = useState<Pokemon[]>([])
 	const [pokemons, setPokemons] = useState<Pokemon[]>([])
-	const [inputSearch, setInputSearch] = useState('')
+	const searchStorage = localStorage.getItem(LOCALSTORAGESEARCHKEY)
+	const [inputSearch, setInputSearch] = useState(
+		searchStorage ? searchStorage as string : ''
+	)
 	const [maxLength, setMaxLength] = useState(8)
 	const filterOptions = [
+		{
+			title: 'All',
+			value: ''
+		},
 		{
 			title: 'A-Z',
 			value: '0',
@@ -44,7 +33,10 @@ const Home = () => {
 			value: '1',
 		},
 	]
-	const [option, setOption] = useState('')
+	const filterStorage = localStorage.getItem(LOCALSTORAGEFILTERKEY)
+	const [option, setOption] = useState(
+		filterStorage ? JSON.parse(filterStorage) as string : ''
+	)
 
 	// Fetch all pokemons
 	useEffect(() => {
@@ -54,9 +46,29 @@ const Home = () => {
 
 				if (data.status == 200) {
 					data.data.results.map((p: Pokemon) => {
-						setPokemons((pokemons => [...pokemons, p]))
 						setBackendPokemons((pokemons => [...pokemons, p]))
 					})
+
+					if(inputSearch.length !== 0) {
+						setPokemons([...data.data.results].filter(
+							(p) => p.name.toLowerCase()
+								.includes(inputSearch.toLowerCase())
+						))
+					} else {
+						switch (option.toString()) {
+						case filterOptions[1].value:
+							setPokemons([...data.data.results as Pokemon[]].sort((a, b) => a.name > b.name ? 1 : -1))
+							break
+	
+						case filterOptions[2].value:
+							setPokemons([...data.data.results as Pokemon[]].sort((a, b) => a.name < b.name ? 1 : -1))
+							break
+	
+						default:
+							setPokemons(data.data.results as Pokemon[])
+							break
+						}
+					}
 				}
 
 				else console.log('No pokemons available')
@@ -72,26 +84,39 @@ const Home = () => {
 	useEffect(() => {
 		const filterSearchInput = () => {
 			if (inputSearch.length !== 0) {
-				setPokemons(backendpokemons.filter((p) => p.name.toLowerCase().includes(inputSearch.toLowerCase())))
+				setPokemons(backendpokemons.filter(
+					(p) => p.name.toLowerCase()
+						.includes(inputSearch.toLowerCase())
+				))
 			}
-			else {
+			else if(option.length == 0) {
 				setPokemons(backendpokemons)
 			}
+			localStorage.setItem(LOCALSTORAGESEARCHKEY, inputSearch)
 		}
 		filterSearchInput()
 	}, [inputSearch])
 
 	useEffect(() => {
-		switch (option) {
-		case filterOptions[0].value:
+		switch (option.toString()) {
+		case filterOptions[1].value:
+			setInputSearch('')
+			localStorage.setItem(LOCALSTORAGESEARCHKEY, '')
+			localStorage.setItem(LOCALSTORAGEFILTERKEY, option)
 			setPokemons([...backendpokemons].sort((a, b) => a.name > b.name ? 1 : -1))
 			break
 
-		case filterOptions[1].value:
+		case filterOptions[2].value:
+			setInputSearch('')
+			localStorage.setItem(LOCALSTORAGESEARCHKEY, '')
+			localStorage.setItem(LOCALSTORAGEFILTERKEY, option)
 			setPokemons([...backendpokemons].sort((a, b) => a.name < b.name ? 1 : -1))
 			break
 
 		default:
+			setInputSearch('')
+			localStorage.setItem(LOCALSTORAGESEARCHKEY, '')
+			localStorage.setItem(LOCALSTORAGEFILTERKEY, option)
 			setPokemons(backendpokemons)
 			break
 		}
@@ -121,21 +146,19 @@ const Home = () => {
 			</H.HomeInputArea>
 
 			<H.HomeFilterArea>
-				<button
+				<H.HomeButton
 					name='filter'
-					className='bg-black text-white rounded-md py-2 px-4 text-sm shadow-xl cursor-pointer m-5'
+					className='text-sm shadow-xl m-5'
 					onClick={() => sortPokemons()}
 				>
 					Surprise me
-				</button>
+				</H.HomeButton>
 				<select
 					name='filter'
-					className='bg-black text-white rounded-md py-2 px-4 focus:outline-none text-sm shadow-xl m-5'
+					className='w-32 h-10 flex justify-center items-center bg-black text-white rounded-md py-2 px-4 focus:outline-none text-sm shadow-xl m-5 cursor-text'
 					onChange={(e) => setOption(e.target.value)}
+					value={option}
 				>
-					<option value=''>
-						All
-					</option>
 					{
 						filterOptions.map((o, i) => (
 							<option key={i} value={o.value}>{o.title}</option>
@@ -160,18 +183,18 @@ const Home = () => {
 							${maxLength == backendpokemons.length || pokemons.length !== backendpokemons.length ? 'hidden' : 'flex'}
 						`}
 					>
-						<button
-							className='bg-black text-white rounded-md py-2 px-4 text-sm shadow-xl cursor-pointer m-5 max-w-[150px]'
+						<H.HomeButton
+							className='text-sm shadow-xl m-5'
 							onClick={() => setMaxLength(maxLength + 4)}
 						>
 							Load more
-						</button>
-						<button
-							className='bg-black text-white rounded-md py-2 px-4 text-sm shadow-xl cursor-pointer m-5 max-w-[150px]'
+						</H.HomeButton>
+						<H.HomeButton
+							className='text-sm shadow-xl cursor-pointer m-5'
 							onClick={() => setMaxLength(backendpokemons.length)}
 						>
 							Load all
-						</button>
+						</H.HomeButton>
 					</div>
 				</H.HomeMain>
 			) : (
@@ -181,6 +204,27 @@ const Home = () => {
 				</>
 			)}
 		</H.HomeScreen>
+	)
+}
+
+const LoadingIndicator = () => {
+	const { promiseInProgress } = usePromiseTracker()
+
+	return (
+		promiseInProgress ?
+			(
+				<ThreeDots
+					height='80'
+					width='80'
+					radius='9'
+					color='#282936'
+					ariaLabel='three-dots-loading'
+					wrapperStyle={{}}
+					visible={true}
+				/>
+			) : (
+				<div className='hidden' />
+			)
 	)
 }
 

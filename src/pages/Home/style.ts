@@ -70,6 +70,18 @@ export const HomeMainHeader = styled.div`
     background-color: white;
 `
 
+export const HomeButton = styled.button`
+    width: 128px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    color: white;
+    border-radius: 8px;
+    padding: 8px 16px;
+`
+
 export const HomeGrid = styled.div<{ length: number }>`
     max-width: 1280px;
     margin: 0 auto;
