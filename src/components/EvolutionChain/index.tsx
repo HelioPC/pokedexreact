@@ -23,19 +23,20 @@ const EvolutionChain = ({ url }: ComponentProps) => {
 				let evoData = result.data.chain
 				const pokemonsNames: string[] = []
 
-				pokemonsNames.push(evoData.species.name)
+				pokemonsNames.push(evoData.species.url)
 
 				do {
 					// eslint-disable-next-line @typescript-eslint/no-explicit-any
 					evoData.evolves_to.map((p: any) => {
-						pokemonsNames.push(p.species.name)
+						pokemonsNames.push(p.species.url)
 					})
 					evoData = evoData.evolves_to[0]
 				} while (evoData.evolves_to.length > 0 && Object.prototype.hasOwnProperty.call(evoData, 'evolves_to'))
 
 				if (pokemonsNames.length != 0) {
 					pokemonsNames.map(async (name) => {
-						const data = await api.getPokemon(name)
+						const id = name.slice(42)
+						const data = await api.getPokemon(id.slice(0, id.length-1))
 
 						if (data.status === 200) setPokemons((poke => [...poke, data.data]))
 						else throw Error
