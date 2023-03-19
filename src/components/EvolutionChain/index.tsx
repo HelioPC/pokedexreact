@@ -5,7 +5,7 @@ import { MdKeyboardArrowRight, MdKeyboardArrowDown } from 'react-icons/md'
 import { api } from '../../api'
 import { Pokemon } from '../../types/core'
 import PokemonEvolutionCard from '../PokemonEvolutionCard'
-import { Tooltip } from '@mui/material'
+import Tooltip from '@mui/material/Tooltip'
 
 type ComponentProps = {
 	url: string
@@ -34,13 +34,16 @@ const EvolutionChain = ({ url }: ComponentProps) => {
 				} while (evoData.evolves_to.length > 0 && Object.prototype.hasOwnProperty.call(evoData, 'evolves_to'))
 
 				if (pokemonsNames.length != 0) {
-					pokemonsNames.map(async (name) => {
-						const id = name.slice(42)
-						const data = await api.getPokemon(id.slice(0, id.length-1))
-
-						if (data.status === 200) setPokemons((poke => [...poke, data.data]))
-						else throw Error
-					})
+					const dtg = await Promise.all(
+						pokemonsNames.map(async (name) => {
+							const id = name.slice(42)
+							const data = await api.getPokemon(id.slice(0, id.length-1))
+	
+							if (data.status !== 200) throw Error
+							else return data.data
+						})
+					)
+					setPokemons(dtg)
 				}
 				else throw Error
 			} catch (error) {
