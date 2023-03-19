@@ -1,5 +1,5 @@
 import React from 'react'
-import Tooltip from '@mui/material/Tooltip'
+import { Tooltip } from 'react-tooltip'
 
 import { DetailCardFooter } from '../style'
 
@@ -17,14 +17,22 @@ const CardFooter = ({ imageUrl }: Props) => {
 			/>
 			<p className='text-xs'>
 				Pokedex by
-				<Tooltip
-					title='A brilliant software developer'
-					placement='top'
-					arrow
-				>
-					<a target='_blank' rel='noreferrer' href='https://github.com/HelioPC' className='font-bold text-blue-600'> HelioPC</a>
-				</Tooltip>
+				<a
+					target='_blank' rel='noreferrer'
+					href='https://github.com/HelioPC'
+					data-tooltip-id='link-me'
+					className='font-bold text-blue-600'> HelioPC</a>
 			</p>
+			<Tooltip
+				id='link-me'
+				content='A brilliant software developer'
+				place='top'
+				style={{
+					fontSize: '10px',
+					padding: '4px',
+					backgroundColor: '#666666'
+				}}
+			/>
 		</DetailCardFooter>
 	)
 }

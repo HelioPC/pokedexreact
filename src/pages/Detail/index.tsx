@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import DetailCardComponent from './components/DetailCardComponent'
 
 import * as D from './style'
+import 'react-tooltip/dist/react-tooltip.css'
 
 const Detail = () => {
 	const location = useLocation()

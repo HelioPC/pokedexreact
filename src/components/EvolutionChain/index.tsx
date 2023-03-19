@@ -5,7 +5,7 @@ import { MdKeyboardArrowRight, MdKeyboardArrowDown } from 'react-icons/md'
 import { api } from '../../api'
 import { Pokemon } from '../../types/core'
 import PokemonEvolutionCard from '../PokemonEvolutionCard'
-import Tooltip from '@mui/material/Tooltip'
+import { Tooltip } from 'react-tooltip'
 
 type ComponentProps = {
 	url: string
@@ -37,8 +37,8 @@ const EvolutionChain = ({ url }: ComponentProps) => {
 					const dtg = await Promise.all(
 						pokemonsNames.map(async (name) => {
 							const id = name.slice(42)
-							const data = await api.getPokemon(id.slice(0, id.length-1))
-	
+							const data = await api.getPokemon(id.slice(0, id.length - 1))
+
 							if (data.status !== 200) throw Error
 							else return data.data
 						})
@@ -68,24 +68,48 @@ const EvolutionChain = ({ url }: ComponentProps) => {
 								<PokemonEvolutionCard pokemon={p} />
 								{
 									i < pokemons.length - 1 && (
-										<Tooltip
-											title={`${p.name} evolves into ${self[i + 1].name}`}
+										<div
+											data-tooltip-id={i.toString() + 'eh'}
 										>
-											<div>
-												<MdKeyboardArrowRight size={30} className='md:block hidden' />
-											</div>
-										</Tooltip>
+											<MdKeyboardArrowRight size={30} className='md:block hidden' />
+										</div>
 									)
 								}
 								{
 									i < pokemons.length - 1 && (
 										<Tooltip
-											title={`${p.name} evolves into ${self[i + 1].name}`}
+											id={i.toString() + 'eh'}
+											content={`${p.name} evolves into ${self[i + 1].name}`}
+											place='top'
+											style={{
+												fontSize: '10px',
+												padding: '4px',
+												backgroundColor: '#666666'
+											}}
+										/>
+									)
+								}
+								{
+									i < pokemons.length - 1 && (
+										<div
+											data-tooltip-id={i.toString() + 'ep'}
 										>
-											<div>
-												<MdKeyboardArrowDown size={30} className='md:hidden block' />
-											</div>
-										</Tooltip>
+											<MdKeyboardArrowDown size={30} className='md:hidden block' />
+										</div>
+									)
+								}
+								{
+									i < pokemons.length - 1 && (
+										<Tooltip
+											id={i.toString() + 'ep'}
+											content={`${p.name} evolves into ${self[i + 1].name}`}
+											place='bottom'
+											style={{
+												fontSize: '10px',
+												padding: '4px',
+												backgroundColor: '#666666'
+											}}
+										/>
 									)
 								}
 							</div>
