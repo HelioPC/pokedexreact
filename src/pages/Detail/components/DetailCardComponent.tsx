@@ -92,11 +92,12 @@ const DetailCardComponent = ({ pokemon }: CardComponentProps) => {
 								/>
 							</div>
 							<Carousel data={descriptions} />
-							<div className='w-full h-full min-h-[250px] grid xs:grid-cols-2 xs:grid-rows-2 grid-cols-[repeat(1,150px)] grid-rows-4 gap-5 p-5'>
+							<div className='w-full h-full min-h-[250px] grid xs:grid-cols-2 xs:grid-rows-2 grid-cols-[repeat(1,auto)] grid-rows-[repeat(4,auto)] gap-5 p-5'>
 								<BasicInfo
 									height={pokemon.height}
 									weight={pokemon.weight}
 									gender_rate={pokemonSpecies.gender_rate}
+									capture_rate={pokemonSpecies.capture_rate}
 								/>
 							</div>
 							<div className='w-full h-full flex justify-center sm:p-5 p-1'>

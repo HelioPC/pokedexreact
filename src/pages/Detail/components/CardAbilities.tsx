@@ -40,7 +40,7 @@ const CardAbilities = ({ pokemon }: Props) => {
 
 	return (
 		fetched && pokeType != undefined ? (
-			<div className='w-full grid md:grid-cols-[70%,30%] grid-cols-1 md:grid-rows-1 grid-rows-2'>
+			<div className='w-full grid md:grid-cols-[60%,40%] grid-cols-1 md:grid-rows-1 grid-rows-[auto,150px] my-10 sm:px-10 px-2'>
 				<div className='w-full h-full flex sm:flex-row flex-col justify-center p-2 gap-10'>
 					<div className='flex flex-col items-center shadow p-2 rounded-lg'>
 						<span className='font-bold'>Type</span>
@@ -123,10 +123,21 @@ const CardAbilities = ({ pokemon }: Props) => {
 					</div>
 				</div>
 
-				{/* TODO: Add catch rate
-					<div className='w-full h-full flex flex-col border-solid border-2 border-blue-500'>
+
+				<div className='w-full h-full p-2'>
+					<div className='w-full h-full flex flex-col gap-5 items-center justify-center xs:shadow-lg shadow rounded-lg py-5 px-3'>
+						<p className='font-bold'>Abilities</p>
+						<div className='flex justify-center items-center flex-wrap gap-4'>
+							{
+								pokemon.abilities.map((a, i) => (
+									<p key={i} className='text-sm bg-[#EDEDED] p-2 rounded-lg'>
+										{a.ability.name}
+									</p>
+								))
+							}
+						</div>
 					</div>
-				*/}
+				</div>
 			</div>
 		) : <LoadingIndicator />
 	)
