@@ -5,9 +5,10 @@ type Props = {
 	height: number
 	weight: number
 	gender_rate: number
+	capture_rate: number
 }
 
-const BasicInfo = ({ height, weight, gender_rate }: Props) => {
+const BasicInfo = ({ height, weight, gender_rate, capture_rate }: Props) => {
 	return (
 		<React.Fragment>
 			<div className='flex flex-col gap-5 items-center justify-center xs:shadow-lg shadow rounded-lg py-5'>
@@ -18,7 +19,7 @@ const BasicInfo = ({ height, weight, gender_rate }: Props) => {
 				<p className='font-bold'>Weight</p>
 				<p className='text-sm'>{weight / 10} kg</p>
 			</div>
-			<div className='w-full flex flex-col gap-5 items-center justify-center xs:shadow-lg shadow rounded-lg py-5 px-3'>
+			<div className='flex flex-col gap-5 items-center justify-center xs:shadow-lg shadow rounded-lg py-5 px-3'>
 				<p className='font-bold'>Gender</p>
 				{
 					gender_rate > 0 ? (
@@ -38,6 +39,10 @@ const BasicInfo = ({ height, weight, gender_rate }: Props) => {
 						</div>
 					)
 				}
+			</div>
+			<div className='flex flex-col gap-5 items-center justify-center xs:shadow-lg shadow rounded-lg py-5 px-3'>
+				<p className='font-bold'>Catch Rate</p>
+				<p className='text-sm'>{((capture_rate * 100) / 255).toFixed(1)}%</p>
 			</div>
 		</React.Fragment>
 	)

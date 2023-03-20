@@ -15,7 +15,7 @@ const StyledLabel = styled.div<{ color: string }>`
 const TypeLabel = ({ name }: ComponentProps) => {
 	return (
 		<StyledLabel color={getColor(name)}>
-			<p className='text-xs text-black'>{name}</p>
+			<p className='text-xs text-center text-black'>{name}</p>
 		</StyledLabel>
 	)
 }

@@ -22,6 +22,9 @@ export const api = {
 
 		return await axios.get(`${BASE_URL}${POKEMON_URL}?limit=${size}`)
 	},
+	getPokemonType: async (url: string) => {
+		return await axios.get(url)
+	},
 	getPokemonSpecies: async (id: string) => {
 		return await axios.get(`${BASE_URL}${POKEMON_SPECIES_URL}${id}`)
 	},
