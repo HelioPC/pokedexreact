@@ -3,7 +3,6 @@ import axios from 'axios'
 const BASE_URL = 'https://pokeapi.co/api/v2/'
 const POKEMON_URL = 'pokemon/'
 const POKEMON_SPECIES_URL = 'pokemon-species/'
-const POKEMON_TYPE = 'type/'
 
 export const BASE_IMAGE_URL = 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/'
 
@@ -23,8 +22,8 @@ export const api = {
 
 		return await axios.get(`${BASE_URL}${POKEMON_URL}?limit=${size}`)
 	},
-	getPokemonType: async (id: string) => {
-		return await axios.get(`${BASE_URL}${POKEMON_TYPE}${id}`)
+	getPokemonType: async (url: string) => {
+		return await axios.get(url)
 	},
 	getPokemonSpecies: async (id: string) => {
 		return await axios.get(`${BASE_URL}${POKEMON_SPECIES_URL}${id}`)
