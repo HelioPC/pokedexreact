@@ -27,6 +27,37 @@ export type Species = {
     }
 }
 
+export type Type = {
+    name: string
+    damage_relations: {
+        double_damage_to: {
+            name: string
+        }[]
+        double_damage_from: {
+            name: string
+        }[]
+        half_damage_to: {
+            name: string
+        }[]
+        half_damage_from: {
+            name: string
+        }[]
+        no_damage_to: {
+            name: string
+        }[]
+        no_damage_from: {
+            name: string
+        }[]
+    }
+    pokemon: {
+        pokemon: {
+            name: string
+            url: string
+        }
+        slot: number
+    }[]
+}
+
 export type Pokemon = {
     id: number
     name: string

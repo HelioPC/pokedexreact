@@ -15,6 +15,7 @@ import pokeApiImg from '../../../assets/logo.png'
 import Carousel from '../../../components/Carousel'
 import CardHeader from './CardHeader'
 import CardFooter from './CardFooter'
+import CardAbilities from './CardAbilities'
 
 type CardComponentProps = {
 	pokemon: Pokemon
@@ -98,7 +99,7 @@ const DetailCardComponent = ({ pokemon }: CardComponentProps) => {
 									gender_rate={pokemonSpecies.gender_rate}
 								/>
 							</div>
-							<div className='w-full h-full flex justify-center p-5'>
+							<div className='w-full h-full flex justify-center sm:p-5 p-1'>
 								<Pie data={data} />
 							</div>
 						</div>
@@ -106,16 +107,7 @@ const DetailCardComponent = ({ pokemon }: CardComponentProps) => {
 						<LoadingIndicator />
 					)
 				}
-				{/* TODO: Add abilities and catch rate
-				<div className='bg-[#DCDCDC] w-full h-56 grid grid-cols-2 grid-rows-1'>
-					<div className='w-full h-full flex flex-col'>
-
-					</div>
-					<div className='w-full h-full flex'>
-
-					</div>
-				</div>
-			*/}
+				<CardAbilities pokemon={pokemon} />
 				{pokemonSpecies && <EvolutionChain url={pokemonSpecies.evolution_chain.url} />}
 			</D.DetailCardBody>
 
