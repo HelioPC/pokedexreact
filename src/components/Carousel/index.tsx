@@ -9,20 +9,17 @@ const Carousel = ({ data }: Props) => {
 	const [index, setIndex] = useState(0)
 
 	useEffect(() => {
-		setInterval(increment, 7000)
-		const stop = data.length
-		let i = 0
-
-		function increment() {
-			i = i + 1
-
-			if (i === stop) {
-				i = 0
-			}
-
-			setIndex(i)
+		if (data.length < 2) return
+		let timer: number | undefined
+		if (index < data.length - 1) {
+			timer = setInterval(() => setIndex(index + 1), 5000)
+		} else {
+			setIndex(0)
 		}
-	}, [])
+		return () => {
+			clearInterval(timer)
+		}
+	}, [index])
 
 	return (
 		<div className='w-full h-full flex flex-col items-center xs:px-10 px-5'>
