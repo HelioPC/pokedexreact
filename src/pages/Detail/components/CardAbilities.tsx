@@ -36,7 +36,7 @@ const CardAbilities = ({ pokemon }: Props) => {
 				.then(() => setFetched(true))
 				.catch(() => console.log('erro'))
 		)
-	}, [])
+	}, [pokemon])
 
 	return (
 		fetched && pokeType != undefined ? (
