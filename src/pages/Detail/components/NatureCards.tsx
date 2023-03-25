@@ -32,16 +32,24 @@ const NatureCompactCard = ({ pokemon, types }: Props) => {
 				<span className='text-xs text-center text-[#AAA] mb-4'>{'(Kind of nature)'}</span>
 				<TypeLabel name={pokemon.types[0].type.name} />
 			</div>
-			<div className='flex flex-col items-center p-2'>
-				<span className='font-bold'>Weakness</span>
-				<span className='text-xs text-[#AAA] mb-4'>{'(Get damage from)'}</span>
-				<TypeLabel name={types[0].damage_relations.double_damage_from[0].name} />
-			</div>
-			<div className='flex flex-col items-center p-2'>
-				<span className='font-bold'>Toughness</span>
-				<span className='text-xs text-[#AAA] mb-4'>{'(Cause damage to)'}</span>
-				<TypeLabel name={types[0].damage_relations.double_damage_to[0].name} />
-			</div>
+			{types[0].damage_relations.double_damage_from.length > 1 ?
+				(
+					<div className='flex flex-col items-center p-2'>
+						<span className='font-bold'>Weakness</span>
+						<span className='text-xs text-[#AAA] mb-4'>{'(Get damage from)'}</span>
+						<TypeLabel name={types[0].damage_relations.double_damage_from[0].name} />
+					</div>
+				) : null
+			}
+			{types[0].damage_relations.double_damage_to.length > 1 ?
+				(
+					<div className='flex flex-col items-center p-2'>
+						<span className='font-bold'>Toughness</span>
+						<span className='text-xs text-[#AAA] mb-4'>{'(Cause damage to)'}</span>
+						<TypeLabel name={types[0].damage_relations.double_damage_to[0].name} />
+					</div>
+				) : null
+			}
 		</div>
 	)
 }
