@@ -66,6 +66,7 @@ export type Pokemon = {
     abilities: {
         ability: {
             name: string
+            url: string
         }
     }[]
     types: {

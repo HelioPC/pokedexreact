@@ -91,7 +91,15 @@ const DetailCardComponent = ({ pokemon }: CardComponentProps) => {
 									className='h-[calc(100%-10px)] shadow-lg xs:hover:scale-105 xs:duration-300'
 								/>
 							</div>
-							<Carousel data={descriptions} />
+							<Carousel id='dcc'>
+								{
+									descriptions.map((d, i) => (
+										<p key={i} className='text-sm text-center font-bold md:my-auto my-8'>
+											{d}
+										</p>
+									))
+								}
+							</Carousel>
 							<div className='w-full h-full min-h-[250px] grid xs:grid-cols-2 xs:grid-rows-2 grid-cols-[repeat(1,auto)] grid-rows-[repeat(4,auto)] gap-5 p-5'>
 								<BasicInfo
 									height={pokemon.height}
