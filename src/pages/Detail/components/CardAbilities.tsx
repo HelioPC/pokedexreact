@@ -15,6 +15,7 @@ type Props = {
 const CardAbilities = ({ pokemon }: Props) => {
 	const [pokeType, setPokeType] = useState<Type[]>()
 	const [fetched, setFetched] = useState(false)
+	const [abilitiesDescription, setAbilitiesDescription] = useState<{ name: string; description: string }[]>([])
 
 	useEffect(() => {
 		const fetchResults = async () => {
@@ -35,7 +36,14 @@ const CardAbilities = ({ pokemon }: Props) => {
 						if (data.status == 200) return data.data
 					})
 				)
-				console.log(abilities)
+				abilities.map((a) => {
+					// eslint-disable-next-line @typescript-eslint/no-explicit-any
+					a.effect_entries.map((e: any) => {
+						if (e.language.name == 'en') {
+							setAbilitiesDescription((abilitiesDescription => [...abilitiesDescription, { description: e.effect, name: a.name }]))
+						}
+					})
+				})
 			} catch (e) { throw Error }
 		}
 
@@ -74,10 +82,21 @@ const CardAbilities = ({ pokemon }: Props) => {
 					children2={
 						<Carousel id='ca'>
 							{pokemon.abilities.map((a, i) => (
-								<div key={i} className='w-full h-full flex flex-col justify-center items-center'>
-									<p className='text-sm font-bold bg-[#EDEDED] shadow-md p-2 rounded-lg'>
+								<div key={i} className='w-full h-full flex flex-col justify-center items-center gap-5'>
+									<p className='text font-bold bg-[#EDEDED] shadow-md p-2 rounded-lg'>
 										{a.ability.name}
 									</p>
+									{
+										abilitiesDescription.map((ad, j) => {
+											return (
+												a.ability.name == ad.name && j < 3 ? (
+													<p key={j} className='text-xs text-center font-bold'>
+														{ad.description}
+													</p>
+												) : null
+											)
+										})
+									}
 								</div>
 							))}
 						</Carousel>
