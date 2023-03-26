@@ -30,20 +30,24 @@ const CardAbilities = ({ pokemon }: Props) => {
 				)
 				if (Array.isArray(fetchedTypes)) setPokeType(fetchedTypes)
 				else throw Error
+
 				const abilities = await Promise.all(
 					pokemon.abilities.map(async (a) => {
 						const data = await api.getPokemonAbilityInfo(a.ability.url)
 						if (data.status == 200) return data.data
 					})
 				)
-				abilities.map((a) => {
-					// eslint-disable-next-line @typescript-eslint/no-explicit-any
-					a.effect_entries.map((e: any) => {
-						if (e.language.name == 'en') {
-							setAbilitiesDescription((abilitiesDescription => [...abilitiesDescription, { description: e.effect, name: a.name }]))
-						}
+				if (Array.isArray(abilities)) {
+					abilities.map((a) => {
+						// eslint-disable-next-line @typescript-eslint/no-explicit-any
+						a.effect_entries.map((e: any) => {
+							if (e.language.name == 'en') {
+								setAbilitiesDescription((abilitiesDescription => [...abilitiesDescription, { description: e.effect, name: a.name }]))
+							}
+						})
 					})
-				})
+				}
+				else throw Error
 			} catch (e) { throw Error }
 		}
 
@@ -86,17 +90,16 @@ const CardAbilities = ({ pokemon }: Props) => {
 									<p className='text font-bold bg-[#EDEDED] shadow-md p-2 rounded-lg'>
 										{a.ability.name}
 									</p>
-									{
-										abilitiesDescription.map((ad, j) => {
-											return (
-												a.ability.name == ad.name && j < 3 ? (
-													<p key={j} className='text-xs text-center font-bold'>
-														{ad.description}
-													</p>
-												) : null
-											)
-										})
-									}
+									<p className='text-xs text-center font-bold'>
+										{
+											abilitiesDescription
+												.find((ad) => ad.name == a.ability.name) != undefined ?
+												(
+													abilitiesDescription
+														.find((ad) => ad.name == a.ability.name)?.description
+												) : 'Without description'
+										}
+									</p>
 								</div>
 							))}
 						</Carousel>
