@@ -16,6 +16,7 @@ import Carousel from '../../../components/Carousel'
 import CardHeader from './CardHeader'
 import CardFooter from './CardFooter'
 import CardAbilities from './CardAbilities'
+import AnimatedCard from '../../../components/AnimatedCard'
 
 type CardComponentProps = {
 	pokemon: Pokemon
@@ -100,14 +101,26 @@ const DetailCardComponent = ({ pokemon }: CardComponentProps) => {
 									))
 								}
 							</Carousel>
-							<div className='w-full h-full min-h-[250px] grid xs:grid-cols-2 xs:grid-rows-2 grid-cols-[repeat(1,auto)] grid-rows-[repeat(4,auto)] gap-5 p-5'>
-								<BasicInfo
-									height={pokemon.height}
-									weight={pokemon.weight}
-									gender_rate={pokemonSpecies.gender_rate}
-									capture_rate={pokemonSpecies.capture_rate}
-								/>
-							</div>
+
+							<AnimatedCard
+								id='bsinfo'
+								layoutId01='bs01'
+								layoutId02='bs02'
+								classProps01='w-full h-full min-h-[300px] flex justify-center items-center'
+								classProps02='h-[50vh] min-h-[50vh] md:w-2/3 w-[95%] absolute md:top-[70%] top-[90%] md:left-[20%] bg-white rounded-lg shadow-xl bg-white border-2 border-solid border-[#EDEDED]'
+								children1={
+									<span className='text-sm font-bold bg-[#EDEDED] p-2 shadow-lg rounded-lg'>Basic Info</span>
+								}
+								children2={
+									<BasicInfo
+										height={pokemon.height}
+										weight={pokemon.weight}
+										gender_rate={pokemonSpecies.gender_rate}
+										capture_rate={pokemonSpecies.capture_rate}
+									/>
+								}
+							/>
+
 							<div className='w-full h-full flex justify-center sm:p-5 p-1'>
 								<Pie data={data} />
 							</div>
