@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from 'react'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
-import { ThreeDots } from 'react-loader-spinner'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
 import { Pie } from 'react-chartjs-2'
 
@@ -17,6 +16,7 @@ import CardHeader from './CardHeader'
 import CardFooter from './CardFooter'
 import CardAbilities from './CardAbilities'
 import AnimatedCard from '../../../components/AnimatedCard'
+import LoadingIndicator from '../../../components/LoadingIndicator'
 
 type CardComponentProps = {
 	pokemon: Pokemon
@@ -25,6 +25,7 @@ type CardComponentProps = {
 ChartJS.register(ArcElement, Tooltip, Legend)
 
 const DetailCardComponent = ({ pokemon }: CardComponentProps) => {
+	const { promiseInProgress } = usePromiseTracker()
 	const [pokemonSpecies, setPokemonSpecies] = useState<Species>()
 	const [descriptions, setDescriptions] = useState<string[]>([])
 
@@ -143,7 +144,7 @@ const DetailCardComponent = ({ pokemon }: CardComponentProps) => {
 							</div>
 						</div>
 					) : (
-						<LoadingIndicator />
+						<LoadingIndicator promiseInProgress={promiseInProgress} />
 					)
 				}
 				<CardAbilities pokemon={pokemon} />
@@ -152,24 +153,6 @@ const DetailCardComponent = ({ pokemon }: CardComponentProps) => {
 
 			<CardFooter imageUrl={pokeApiImg} />
 		</D.DetailCard>
-	)
-}
-
-const LoadingIndicator = () => {
-	const { promiseInProgress } = usePromiseTracker()
-
-	return (
-		promiseInProgress ? (
-			<ThreeDots
-				height='80'
-				width='80'
-				radius='9'
-				color='#282936'
-				ariaLabel='three-dots-loading'
-				wrapperStyle={{}}
-				visible={true}
-			/>
-		) : null
 	)
 }
 

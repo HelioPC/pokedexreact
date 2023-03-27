@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { MdOutlineSearch } from 'react-icons/md'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
-import { ThreeDots } from 'react-loader-spinner'
 
 import { api } from '../../api'
 import { Pokemon } from '../../types/core'
 import * as H from './style'
 import PokemonCard from '../../components/PokemonCard'
+import LoadingIndicator from '../../components/LoadingIndicator'
 
 const LOCALSTORAGEFILTERKEY = 'pokeFilterKey'
 const LOCALSTORAGESEARCHKEY = 'pokeSearchKey'
 
 const Home = () => {
+	const { promiseInProgress } = usePromiseTracker()
 	const [backendpokemons, setBackendPokemons] = useState<Pokemon[]>([])
 	const [pokemons, setPokemons] = useState<Pokemon[]>([])
 	const searchStorage = localStorage.getItem(LOCALSTORAGESEARCHKEY)
@@ -200,31 +201,10 @@ const Home = () => {
 			) : (
 				<>
 					<div>No pokemons</div>
-					<LoadingIndicator />
+					<LoadingIndicator promiseInProgress={promiseInProgress} />
 				</>
 			)}
 		</H.HomeScreen>
-	)
-}
-
-const LoadingIndicator = () => {
-	const { promiseInProgress } = usePromiseTracker()
-
-	return (
-		promiseInProgress ?
-			(
-				<ThreeDots
-					height='80'
-					width='80'
-					radius='9'
-					color='#282936'
-					ariaLabel='three-dots-loading'
-					wrapperStyle={{}}
-					visible={true}
-				/>
-			) : (
-				<div className='hidden' />
-			)
 	)
 }
 

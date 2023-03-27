@@ -8,9 +8,10 @@ import { Link } from 'react-router-dom'
 
 type PokemonCardProps = {
 	name: string
+	pokeData?: Pokemon
 }
 
-const PokemonCard = ({ name }: PokemonCardProps) => {
+const PokemonCard = ({ name, pokeData }: PokemonCardProps) => {
 	const [pokemon, setPokemon] = useState<Pokemon>()
 	const [imageLoading, setImageLoading] = useState(true)
 	const [tooManyRequests, setTooManyRequests] = useState(false)
@@ -24,7 +25,8 @@ const PokemonCard = ({ name }: PokemonCardProps) => {
 			} catch (error) { /* empty */ }
 		}
 
-		fetchPokemon()
+		if (!pokeData) fetchPokemon()
+		else setPokemon(pokeData)
 	}, [])
 
 	return (
