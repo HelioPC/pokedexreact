@@ -19,7 +19,6 @@ type Props = {
 }
 
 const BasicInfo = ({ height, weight, gender_rate, capture_rate, hatch_counter, base_experience, growth_rate, egg_groups }: Props) => {
-	console.log(height, weight, gender_rate, capture_rate, hatch_counter, base_experience, growth_rate, egg_groups)
 	return (
 		<div className='w-full h-full grid xs:grid-cols-2 xs:grid-rows-2 grid-cols-[repeat(1,auto)] grid-rows-[repeat(4,auto)] gap-5 p-10'>
 			<div className='flex flex-col justify-center items-center gap-4 xs:shadow-lg shadow rounded-lg py-5'>

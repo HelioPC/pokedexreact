@@ -106,12 +106,21 @@ const DetailCardComponent = ({ pokemon }: CardComponentProps) => {
 								id='bsinfo'
 								layoutId01='bs01'
 								layoutId02='bs02'
-								classProps01='w-full h-full min-h-[300px] flex justify-center items-center'
+								classProps01='w-full h-full min-h-[300px] flex justify-center items-center p-4'
 								classProps02='h-auto min-h-[50vh] md:w-2/3 w-[95%] absolute md:top-[70%] top-[90%] md:left-[20%] bg-white rounded-lg shadow-xl bg-white border-2 border-solid border-[#EDEDED]'
 								children1={
-									<div className='w-full h-full flex justify-center items-center outline-2 outline-[#EDEDED] hover:outline duration-500'>
+									<div className='w-full h-auto flex flex-wrap justify-center items-center shadow-lg gap-5 py-10'>
 										<span className='text-sm font-bold bg-[#EDEDED] p-2 shadow-lg rounded-lg'>
-											Basic Info
+											Dimensions
+										</span>
+										<span className='text-sm font-bold bg-[#EDEDED] p-2 shadow-lg rounded-lg'>
+											Breeding
+										</span>
+										<span className='text-sm font-bold bg-[#EDEDED] p-2 shadow-lg rounded-lg'>
+											Egg Info
+										</span>
+										<span className='text-sm font-bold bg-[#EDEDED] p-2 shadow-lg rounded-lg'>
+											Training Info
 										</span>
 									</div>
 								}
