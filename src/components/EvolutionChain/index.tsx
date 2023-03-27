@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
-import { ThreeDots } from 'react-loader-spinner'
 import { MdKeyboardArrowRight, MdKeyboardArrowDown } from 'react-icons/md'
 import { api } from '../../api'
 import { Pokemon } from '../../types/core'
 import PokemonEvolutionCard from '../PokemonEvolutionCard'
 import { Tooltip } from 'react-tooltip'
+import LoadingIndicator from '../LoadingIndicator'
 
 type ComponentProps = {
 	url: string
 }
 
 const EvolutionChain = ({ url }: ComponentProps) => {
+	const { promiseInProgress } = usePromiseTracker()
 	const [fetched, setFetched] = useState(false)
 	const [pokemons, setPokemons] = useState<Pokemon[]>([])
 
@@ -118,30 +119,10 @@ const EvolutionChain = ({ url }: ComponentProps) => {
 				</div>
 			</div>
 		) : (
-			<LoadingIndicator />
+			<LoadingIndicator promiseInProgress={promiseInProgress} />
 		)
 	)
 }
 
-const LoadingIndicator = () => {
-	const { promiseInProgress } = usePromiseTracker()
-
-	return (
-		promiseInProgress ?
-			(
-				<div className='w-full flex justify-center items-center'>
-					<ThreeDots
-						height='80'
-						width='80'
-						radius='9'
-						color='#282936'
-						ariaLabel='three-dots-loading'
-						wrapperStyle={{}}
-						visible={true}
-					/>
-				</div>
-			) : null
-	)
-}
 
 export default EvolutionChain

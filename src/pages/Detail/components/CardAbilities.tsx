@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
-import { ThreeDots } from 'react-loader-spinner'
 
 import { Pokemon, Type } from '../../../types/core'
 import { api } from '../../../api'
 import AnimatedCard from '../../../components/AnimatedCard'
 import NatureCards from './NatureCards'
 import Carousel from '../../../components/Carousel'
+import LoadingIndicator from '../../../components/LoadingIndicator'
 
 type Props = {
 	pokemon: Pokemon
 }
 
 const CardAbilities = ({ pokemon }: Props) => {
+	const { promiseInProgress } = usePromiseTracker()
 	const [pokeType, setPokeType] = useState<Type[]>()
 	const [fetched, setFetched] = useState(false)
 	const [abilitiesDescription, setAbilitiesDescription] = useState<{ name: string; description: string }[]>([])
@@ -106,25 +107,7 @@ const CardAbilities = ({ pokemon }: Props) => {
 					}
 				/>
 			</div>
-		) : <LoadingIndicator />
-	)
-}
-
-const LoadingIndicator = () => {
-	const { promiseInProgress } = usePromiseTracker()
-
-	return (
-		promiseInProgress ? (
-			<ThreeDots
-				height='80'
-				width='80'
-				radius='9'
-				color='#282936'
-				ariaLabel='three-dots-loading'
-				wrapperStyle={{}}
-				visible={true}
-			/>
-		) : null
+		) : <LoadingIndicator promiseInProgress={promiseInProgress} />
 	)
 }
 

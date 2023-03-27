@@ -7,6 +7,7 @@ import Page404 from './pages/Page404'
 const App = () => {
 	return (
 		<HashRouter>
+			{/*TODO: Refactor code and styles */}
 			<Routes>
 				<Route path='/' element={<Home />} />
 				<Route path='/pokemon/:id' element={<Detail />} />
