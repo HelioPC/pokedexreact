@@ -16,6 +16,7 @@ import Carousel from '../../../components/Carousel'
 import CardHeader from './CardHeader'
 import CardFooter from './CardFooter'
 import CardAbilities from './CardAbilities'
+import AnimatedCard from '../../../components/AnimatedCard'
 
 type CardComponentProps = {
 	pokemon: Pokemon
@@ -84,11 +85,11 @@ const DetailCardComponent = ({ pokemon }: CardComponentProps) => {
 			<D.DetailCardBody>
 				{
 					pokemonSpecies ? (
-						<div className='grid md:grid-cols-[repeat(2,50%)] grid-cols-[repeat(1,100%)] md:grid-rows-[repeat(2,290px)] grid-rows-[repeat(4,auto)] my-0'>
-							<div className='w-full h-full flex justify-center items-center px-5 py-2 overflow-hidden'>
+						<div className='grid md:grid-cols-[repeat(2,50%)] grid-cols-[repeat(1,100%)] md:grid-rows-[repeat(2,290px)] grid-rows-[repeat(4,300px)] my-0'>
+							<div className='w-full h-full flex justify-center items-center p-5 overflow-hidden'>
 								<img
 									src={`${BASE_IMAGE_URL}${pokemon.id}.png`}
-									className='h-[calc(100%-10px)] shadow-lg xs:hover:scale-105 xs:duration-300'
+									className='h-full shadow-lg sm:hover:scale-105 xs:duration-300'
 								/>
 							</div>
 							<Carousel id='dcc'>
@@ -100,14 +101,43 @@ const DetailCardComponent = ({ pokemon }: CardComponentProps) => {
 									))
 								}
 							</Carousel>
-							<div className='w-full h-full min-h-[250px] grid xs:grid-cols-2 xs:grid-rows-2 grid-cols-[repeat(1,auto)] grid-rows-[repeat(4,auto)] gap-5 p-5'>
-								<BasicInfo
-									height={pokemon.height}
-									weight={pokemon.weight}
-									gender_rate={pokemonSpecies.gender_rate}
-									capture_rate={pokemonSpecies.capture_rate}
-								/>
-							</div>
+
+							<AnimatedCard
+								id='bsinfo'
+								layoutId01='bs01'
+								layoutId02='bs02'
+								classProps01='w-full h-full flex justify-center items-center p-4'
+								classProps02='h-auto min-h-[50vh] md:w-2/3 w-[95%] absolute md:top-[70%] top-[90%] md:left-[20%] bg-white rounded-lg shadow-xl bg-white border-2 border-solid border-[#EDEDED]'
+								children1={
+									<div className='w-full h-auto flex flex-wrap justify-center items-center shadow-lg gap-5 py-10'>
+										<span className='text-sm font-bold bg-[#EDEDED] p-2 shadow-lg rounded-lg'>
+											Dimensions
+										</span>
+										<span className='text-sm font-bold bg-[#EDEDED] p-2 shadow-lg rounded-lg'>
+											Breeding
+										</span>
+										<span className='text-sm font-bold bg-[#EDEDED] p-2 shadow-lg rounded-lg'>
+											Egg Info
+										</span>
+										<span className='text-sm font-bold bg-[#EDEDED] p-2 shadow-lg rounded-lg'>
+											Training Info
+										</span>
+									</div>
+								}
+								children2={
+									<BasicInfo
+										height={pokemon.height}
+										weight={pokemon.weight}
+										hatch_counter={pokemonSpecies.hatch_counter}
+										base_experience={pokemon.base_experience}
+										growth_rate={pokemonSpecies.growth_rate}
+										gender_rate={pokemonSpecies.gender_rate}
+										capture_rate={pokemonSpecies.capture_rate}
+										egg_groups={pokemonSpecies.egg_groups}
+									/>
+								}
+							/>
+
 							<div className='w-full h-full flex justify-center sm:p-5 p-1'>
 								<Pie data={data} />
 							</div>

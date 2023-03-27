@@ -15,8 +15,9 @@ export type Species = {
     }[]
     gender_rate: number
     capture_rate: number
-    eggg_groups: {
+    egg_groups: {
         name: string
+        url: string
     }[]
     hatch_counter: number
     color: {
@@ -25,6 +26,10 @@ export type Species = {
     evolution_chain: {
         url: string
     }
+    growth_rate: {
+		name: string
+		url: string
+	}
 }
 
 export type Type = {
@@ -63,6 +68,7 @@ export type Pokemon = {
     name: string
     height: number
     weight: number
+    base_experience: number
     abilities: {
         ability: {
             name: string

@@ -59,7 +59,7 @@ const EvolutionChain = ({ url }: ComponentProps) => {
 
 	return (
 		fetched && pokemons.length != 0 ? (
-			<div className='w-full min-h-[200px] bg-transparent rounded-lg border-t-2 border-[#EDEDED] py-4'>
+			<div className='w-full min-h-[200px] bg-transparent rounded-lg py-4'>
 				<h1 className='text-center text-xl font-bold my-5'>Evolution chain</h1>
 				<div className='flex md:flex-row flex-col justify-center items-center gap-5'>
 					{
