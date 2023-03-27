@@ -85,11 +85,11 @@ const DetailCardComponent = ({ pokemon }: CardComponentProps) => {
 			<D.DetailCardBody>
 				{
 					pokemonSpecies ? (
-						<div className='grid md:grid-cols-[repeat(2,50%)] grid-cols-[repeat(1,100%)] md:grid-rows-[repeat(2,290px)] grid-rows-[repeat(4,auto)] my-0'>
-							<div className='w-full h-full flex justify-center items-center px-5 py-2 overflow-hidden'>
+						<div className='grid md:grid-cols-[repeat(2,50%)] grid-cols-[repeat(1,100%)] md:grid-rows-[repeat(2,290px)] grid-rows-[repeat(4,300px)] my-0'>
+							<div className='w-full h-full flex justify-center items-center p-5 overflow-hidden'>
 								<img
 									src={`${BASE_IMAGE_URL}${pokemon.id}.png`}
-									className='h-[calc(100%-10px)] shadow-lg xs:hover:scale-105 xs:duration-300'
+									className='h-full shadow-lg sm:hover:scale-105 xs:duration-300'
 								/>
 							</div>
 							<Carousel id='dcc'>
@@ -106,7 +106,7 @@ const DetailCardComponent = ({ pokemon }: CardComponentProps) => {
 								id='bsinfo'
 								layoutId01='bs01'
 								layoutId02='bs02'
-								classProps01='w-full h-full min-h-[300px] flex justify-center items-center p-4'
+								classProps01='w-full h-full flex justify-center items-center p-4'
 								classProps02='h-auto min-h-[50vh] md:w-2/3 w-[95%] absolute md:top-[70%] top-[90%] md:left-[20%] bg-white rounded-lg shadow-xl bg-white border-2 border-solid border-[#EDEDED]'
 								children1={
 									<div className='w-full h-auto flex flex-wrap justify-center items-center shadow-lg gap-5 py-10'>
