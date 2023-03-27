@@ -3,9 +3,9 @@ import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
 import { MdKeyboardArrowRight, MdKeyboardArrowDown } from 'react-icons/md'
 import { api } from '../../api'
 import { Pokemon } from '../../types/core'
-import PokemonEvolutionCard from '../PokemonEvolutionCard'
 import { Tooltip } from 'react-tooltip'
 import LoadingIndicator from '../LoadingIndicator'
+import PokemonCard from '../PokemonCard'
 
 type ComponentProps = {
 	url: string
@@ -59,14 +59,14 @@ const EvolutionChain = ({ url }: ComponentProps) => {
 	}, [])
 
 	return (
-		fetched && pokemons.length != 0 ? (
+		(fetched && pokemons.length != 0) ? (
 			<div className='w-full min-h-[200px] bg-transparent rounded-lg py-4'>
 				<h1 className='text-center text-xl font-bold my-5'>Evolution chain</h1>
 				<div className='flex md:flex-row flex-col justify-center items-center gap-5'>
 					{
 						pokemons.map((p, i, self) => (
 							<div key={i} className='flex md:flex-row flex-col items-center gap-5'>
-								<PokemonEvolutionCard pokemon={p} />
+								<PokemonCard name={p.name} pokeData={p} />
 								{
 									i < pokemons.length - 1 && (
 										<div

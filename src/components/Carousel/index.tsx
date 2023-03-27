@@ -10,12 +10,15 @@ const Carousel = ({ children, id }: Props) => {
 
 	useEffect(() => {
 		if (children.length < 2) return
+
 		let timer: number | undefined
+
 		if (index <= children.length - 1) {
-			timer = setInterval(() => setIndex(index + 1), 5000)
+			timer = setInterval(() => setIndex(index + 1), 6500)
 		} else {
 			setIndex(0)
 		}
+
 		return () => {
 			clearInterval(timer)
 		}
