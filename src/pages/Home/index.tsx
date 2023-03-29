@@ -33,6 +33,14 @@ const Home = () => {
 			title: 'Z-A',
 			value: '1',
 		},
+		{
+			title: 'Min. id',
+			value: '2',
+		},
+		{
+			title: 'Max. id',
+			value: '3',
+		},
 	]
 	const filterStorage = localStorage.getItem(LOCALSTORAGEFILTERKEY)
 	const [option, setOption] = useState(
@@ -43,7 +51,7 @@ const Home = () => {
 	useEffect(() => {
 		const fetchResults = async () => {
 			try {
-				const data = await api.getPokemons(900)
+				const data = await api.getPokemons(1008)
 
 				if (data.status == 200) {
 					data.data.results.map((p: Pokemon) => {
@@ -113,6 +121,20 @@ const Home = () => {
 			localStorage.setItem(LOCALSTORAGEFILTERKEY, option)
 			setPokemons([...backendpokemons].sort((a, b) => a.name < b.name ? 1 : -1))
 			break
+		
+		case filterOptions[3].value:
+			setInputSearch('')
+			localStorage.setItem(LOCALSTORAGESEARCHKEY, '')
+			localStorage.setItem(LOCALSTORAGEFILTERKEY, option)
+			setPokemons(backendpokemons)
+			break
+		
+		case filterOptions[4].value:
+			setInputSearch('')
+			localStorage.setItem(LOCALSTORAGESEARCHKEY, '')
+			localStorage.setItem(LOCALSTORAGEFILTERKEY, option)
+			setPokemons([...backendpokemons].reverse())
+			break
 
 		default:
 			setInputSearch('')
@@ -154,6 +176,13 @@ const Home = () => {
 				>
 					Surprise me
 				</H.HomeButton>
+				<H.HomeButton
+					className={`text-sm shadow-xl m-5 ${maxLength > 16 ? 'cursor-not-allowed' : ''}`}
+					disabled={maxLength > 16}
+					onClick={() => setMaxLength(maxLength + 4)}
+				>
+					Load more
+				</H.HomeButton>
 				<select
 					name='filter'
 					className='w-32 h-10 flex justify-center items-center bg-black text-white rounded-md py-2 px-4 focus:outline-none text-sm shadow-xl m-5 cursor-text'
@@ -177,26 +206,6 @@ const Home = () => {
 							))
 						}
 					</H.HomeGrid>
-
-					<div
-						className={`
-							w-full xs:flex-row flex-col justify-center items-center my-5
-							${maxLength == backendpokemons.length || pokemons.length !== backendpokemons.length ? 'hidden' : 'flex'}
-						`}
-					>
-						<H.HomeButton
-							className='text-sm shadow-xl m-5'
-							onClick={() => setMaxLength(maxLength + 4)}
-						>
-							Load more
-						</H.HomeButton>
-						<H.HomeButton
-							className='text-sm shadow-xl cursor-pointer m-5'
-							onClick={() => setMaxLength(backendpokemons.length)}
-						>
-							Load all
-						</H.HomeButton>
-					</div>
 				</H.HomeMain>
 			) : (
 				<>
