@@ -72,6 +72,14 @@ const Home = () => {
 						case filterOptions[2].value:
 							setPokemons([...data.data.results as Pokemon[]].sort((a, b) => a.name < b.name ? 1 : -1))
 							break
+						
+						case filterOptions[3].value:
+							setPokemons(data.data.results as Pokemon[])
+							break
+						
+						case filterOptions[4].value:
+							setPokemons([...data.data.results as Pokemon[]].reverse())
+							break
 	
 						default:
 							setPokemons(data.data.results as Pokemon[])
