@@ -98,15 +98,22 @@ const Home = () => {
 		)
 	}, [])
 
+	// Edifício kwanza-sul 4º andar 405
+
 	useEffect(() => {
 		const filterSearchInput = () => {
+			if (backendpokemons.length == 0) return
 			if (inputSearch.length !== 0) {
+				if (option != filterOptions[0].value) {
+					setOption(filterOptions[0].value)
+					localStorage.setItem(LOCALSTORAGEFILTERKEY, filterOptions[0].value)
+				}
 				setPokemons(backendpokemons.filter(
 					(p) => p.name.toLowerCase()
 						.includes(inputSearch.toLowerCase())
 				))
 			}
-			else if(option.length == 0) {
+			else {
 				setPokemons(backendpokemons)
 			}
 			localStorage.setItem(LOCALSTORAGESEARCHKEY, inputSearch)
@@ -115,42 +122,44 @@ const Home = () => {
 	}, [inputSearch])
 
 	useEffect(() => {
-		switch (option.toString()) {
-		case filterOptions[1].value:
-			setInputSearch('')
-			localStorage.setItem(LOCALSTORAGESEARCHKEY, '')
-			localStorage.setItem(LOCALSTORAGEFILTERKEY, option)
-			setPokemons([...backendpokemons].sort((a, b) => a.name > b.name ? 1 : -1))
-			break
+		const filterSelectOption = () => {
+			if (backendpokemons.length == 0) return
+			if (inputSearch.length != 0) return
+			switch (option.toString()) {
+			case filterOptions[1].value:
+				setInputSearch('')
+				localStorage.setItem(LOCALSTORAGESEARCHKEY, '')
+				localStorage.setItem(LOCALSTORAGEFILTERKEY, option)
+				setPokemons([...backendpokemons].sort((a, b) => a.name > b.name ? 1 : -1))
+				break
 
-		case filterOptions[2].value:
-			setInputSearch('')
-			localStorage.setItem(LOCALSTORAGESEARCHKEY, '')
-			localStorage.setItem(LOCALSTORAGEFILTERKEY, option)
-			setPokemons([...backendpokemons].sort((a, b) => a.name < b.name ? 1 : -1))
-			break
-		
-		case filterOptions[3].value:
-			setInputSearch('')
-			localStorage.setItem(LOCALSTORAGESEARCHKEY, '')
-			localStorage.setItem(LOCALSTORAGEFILTERKEY, option)
-			setPokemons(backendpokemons)
-			break
-		
-		case filterOptions[4].value:
-			setInputSearch('')
-			localStorage.setItem(LOCALSTORAGESEARCHKEY, '')
-			localStorage.setItem(LOCALSTORAGEFILTERKEY, option)
-			setPokemons([...backendpokemons].reverse())
-			break
+			case filterOptions[2].value:
+				localStorage.setItem(LOCALSTORAGEFILTERKEY, option)
+				setPokemons([...backendpokemons].sort((a, b) => a.name < b.name ? 1 : -1))
+				break
 
-		default:
-			setInputSearch('')
-			localStorage.setItem(LOCALSTORAGESEARCHKEY, '')
-			localStorage.setItem(LOCALSTORAGEFILTERKEY, option)
-			setPokemons(backendpokemons)
-			break
+			case filterOptions[3].value:
+				localStorage.setItem(LOCALSTORAGEFILTERKEY, option)
+				setPokemons(backendpokemons)
+				break
+
+			case filterOptions[4].value:
+				localStorage.setItem(LOCALSTORAGEFILTERKEY, option)
+				setPokemons([...backendpokemons].reverse())
+				break
+
+			case filterOptions[0].value:
+				localStorage.setItem(LOCALSTORAGEFILTERKEY, option)
+				setPokemons(backendpokemons)
+				break
+
+			default:
+				localStorage.setItem(LOCALSTORAGEFILTERKEY, option)
+				setPokemons(backendpokemons)
+				break
+			}
 		}
+		filterSelectOption()
 	}, [option])
 
 	const sortPokemons = () => {
@@ -172,6 +181,7 @@ const Home = () => {
 						placeholder='Find by name'
 						value={inputSearch}
 						onChange={(e) => setInputSearch(e.target.value)}
+						disabled={option.length != 0}
 					/>
 				</div>
 			</H.HomeInputArea>
@@ -195,6 +205,7 @@ const Home = () => {
 					name='filter'
 					className='w-32 h-10 flex justify-center items-center bg-black text-white rounded-md py-2 px-4 focus:outline-none text-sm shadow-xl m-5 cursor-text'
 					onChange={(e) => setOption(e.target.value)}
+					disabled={inputSearch.length != 0}
 					value={option}
 				>
 					{
