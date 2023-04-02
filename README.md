@@ -15,7 +15,7 @@ A website to view all pokemons and their details. UI made by me 😅
 
 - [x] Render all pokemons card
 - [x] Search pokemons by name
-- [ ] Search pokemons by id
+- [x] Search pokemons by id
 - [ ] Filter pokemons by type
 - [ ] Filter pokemons by ability
 
