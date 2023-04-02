@@ -7,6 +7,7 @@ import { Pokemon } from '../../types/core'
 import * as H from './style'
 import PokemonCard from '../../components/PokemonCard'
 import LoadingIndicator from '../../components/LoadingIndicator'
+import { formatNumber } from '../../helpers/numbers'
 
 const LOCALSTORAGEFILTERKEY = 'pokeFilterKey'
 const LOCALSTORAGESEARCHKEY = 'pokeSearchKey'
@@ -21,26 +22,11 @@ const Home = () => {
 	)
 	const [maxLength, setMaxLength] = useState(8)
 	const filterOptions = [
-		{
-			title: 'All',
-			value: ''
-		},
-		{
-			title: 'A-Z',
-			value: '0',
-		},
-		{
-			title: 'Z-A',
-			value: '1',
-		},
-		{
-			title: 'Min. id',
-			value: '2',
-		},
-		{
-			title: 'Max. id',
-			value: '3',
-		},
+		{ title: 'All', value: '', },
+		{ title: 'A-Z', value: '0', },
+		{ title: 'Z-A', value: '1', },
+		{ title: 'Min. id', value: '2', },
+		{ title: 'Max. id', value: '3', },
 	]
 	const filterStorage = localStorage.getItem(LOCALSTORAGEFILTERKEY)
 	const [option, setOption] = useState(
@@ -110,7 +96,9 @@ const Home = () => {
 				}
 				setPokemons(backendpokemons.filter(
 					(p) => p.name.toLowerCase()
-						.includes(inputSearch.toLowerCase())
+						.includes(inputSearch.toLowerCase()) ||
+						formatNumber(backendpokemons.indexOf(p) + 1)
+							.includes(inputSearch)
 				))
 			}
 			else {
@@ -178,7 +166,7 @@ const Home = () => {
 					/>
 					<input
 						type='text'
-						placeholder='Find by name'
+						placeholder='Find by name or id'
 						value={inputSearch}
 						onChange={(e) => setInputSearch(e.target.value)}
 						disabled={option.length != 0}
