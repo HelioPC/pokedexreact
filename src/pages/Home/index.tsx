@@ -84,8 +84,6 @@ const Home = () => {
 		)
 	}, [])
 
-	// Edifício kwanza-sul 4º andar 405
-
 	useEffect(() => {
 		const filterSearchInput = () => {
 			if (backendpokemons.length == 0) return
