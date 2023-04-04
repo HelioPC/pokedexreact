@@ -7,7 +7,7 @@ export const DetailScreen = styled.div`
     flex-direction: column;
     padding: 50px 20px;
 
-    @media (max-width: 444px) {
+    @media (max-width: 768px) {
         padding: 0;
     }
 `
@@ -18,7 +18,6 @@ export const DetailCard = styled.div`
     background-color: white;
     display: flex;
     flex-direction: column;
-    padding: 4px;
 `
 
 export const DetailCardHeader = styled.div`

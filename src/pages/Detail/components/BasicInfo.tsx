@@ -63,18 +63,22 @@ const BasicInfo = ({ height, weight, gender_rate, capture_rate, hatch_counter, b
 			<div className='flex flex-col justify-center items-center gap-4 xs:shadow-lg shadow rounded-lg py-5'>
 				<p className='font-bold'>Egg info</p>
 				<div className='flex flex-wrap justify-center items-center gap-2'>
-					<div className='flex flex-wrap items-center justify-center gap-2'>
-						<p className='text-xs font-bold'>Egg groups:</p>
-						<p className='text-xs text-[#7B7B7B] font-bold'>
-							{egg_groups.map((eg) => eg.name).join(', ')}
-						</p>
-					</div>
-					<div className='flex flex-wrap items-center justify-center gap-2'>
-						<p className='text-xs font-bold'>Egg cycles:</p>
-						<p className='text-xs text-[#7B7B7B] font-bold'>
-							{hatch_counter + ` cycles (${hatch_counter * 256} steps)`}
-						</p>
-					</div>
+					{
+						(egg_groups && egg_groups.length > 0) ? <div className='flex flex-wrap items-center justify-center gap-2'>
+							<p className='text-xs font-bold'>Egg groups:</p>
+							<p className='text-xs text-[#7B7B7B] font-bold'>
+								{egg_groups.map((eg) => eg.name).join(', ')}
+							</p>
+						</div> : null
+					}
+					{
+						hatch_counter && <div className='flex flex-wrap items-center justify-center gap-2'>
+							<p className='text-xs font-bold'>Egg cycles:</p>
+							<p className='text-xs text-[#7B7B7B] font-bold'>
+								{hatch_counter + ` cycles (${hatch_counter * 256} steps)`}
+							</p>
+						</div>
+					}
 				</div>
 			</div>
 			<div className='flex flex-col justify-center items-center gap-4 xs:shadow-lg shadow rounded-lg py-5'>
@@ -86,16 +90,20 @@ const BasicInfo = ({ height, weight, gender_rate, capture_rate, hatch_counter, b
 							{((capture_rate * 100) / 255).toFixed(1)}%
 						</p>
 					</div>
-					<div className='flex flex-wrap items-center justify-center gap-2'>
-						<p className='text-xs font-bold'>Base exp.</p>
-						<p className='text-xs text-[#7B7B7B] font-bold'>{base_experience}</p>
-					</div>
-					<div className='flex flex-wrap items-center justify-center gap-2'>
-						<p className='text-xs font-bold'>Growth rate</p>
-						<p className='text-xs text-[#7B7B7B] font-bold'>
-							{growth_rate.name.split('-').join(', ')}
-						</p>
-					</div>
+					{
+						base_experience && <div className='flex flex-wrap items-center justify-center gap-2'>
+							<p className='text-xs font-bold'>Base exp.</p>
+							<p className='text-xs text-[#7B7B7B] font-bold'>{base_experience}</p>
+						</div>
+					}
+					{
+						growth_rate && <div className='flex flex-wrap items-center justify-center gap-2'>
+							<p className='text-xs font-bold'>Growth rate</p>
+							<p className='text-xs text-[#7B7B7B] font-bold'>
+								{growth_rate.name.split('-').join(', ')}
+							</p>
+						</div>
+					}
 				</div>
 			</div>
 		</div>

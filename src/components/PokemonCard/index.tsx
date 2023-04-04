@@ -25,8 +25,7 @@ const PokemonCard = ({ name, pokeData }: PokemonCardProps) => {
 			} catch (error) { /* empty */ }
 		}
 
-		if (!pokeData) fetchPokemon()
-		else setPokemon(pokeData)
+		pokeData ? setPokemon(pokeData) : fetchPokemon()
 	}, [])
 
 	return (

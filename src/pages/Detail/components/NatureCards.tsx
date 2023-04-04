@@ -14,7 +14,7 @@ const NatureCards = ({ pokemon, types }: Props) => {
 	return (
 		<AnimatedCard
 			id='nclt'
-			classProps01='w-full h-full border-2 border-solid border-[#EDEDED] rounded-lg xs:shadow-lg shadow'
+			classProps01='w-full h-full rounded-lg xs:shadow-lg shadow'
 			classProps02='h-auto min-h-[50vh] sm:w-2/3 w-[80%] py-4 absolute md:top-[70%] bg-white rounded-lg shadow-xl bg-white border-2 border-solid border-[#EDEDED]'
 			layoutId01='nCompactCard'
 			layoutId02='nExpandedCard'

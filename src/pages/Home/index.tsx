@@ -37,9 +37,10 @@ const Home = () => {
 	useEffect(() => {
 		const fetchResults = async () => {
 			try {
-				const pokemonsNamesResponse = await api.getPokemons(1008)
+				const pokemonsNamesResponse = await api.getPokemons(916)
 
 				if (pokemonsNamesResponse.status == 200) {
+					console.log(pokemonsNamesResponse.data.results)
 					const pokemonsNames: string[] = []
 					pokemonsNamesResponse.data.results.map((p: Pokemon) => {
 						pokemonsNames.push(p.name)
@@ -52,14 +53,16 @@ const Home = () => {
 
 								if (pokemonDataResponse.status == 200) {
 									return pokemonDataResponse.data
-								} else throw Error
+								} else {
+									console.log('erro')
+									throw Error
+								}
 							} catch (error) {
 								console.log('erro')
 							}
 						})
 					)
 
-					console.log(pokemonsData)
 					setBackendPokemons(pokemonsData)
 
 					if(inputSearch.length !== 0) {
@@ -193,13 +196,13 @@ const Home = () => {
 			<H.HomeFilterArea>
 				<H.HomeButton
 					name='filter'
-					className='text-sm shadow-xl m-5'
+					className='sm:text-sm text-xs text-center shadow-xl m-5'
 					onClick={() => sortPokemons()}
 				>
 					Surprise me
 				</H.HomeButton>
 				<H.HomeButton
-					className={`text-sm shadow-xl m-5 ${maxLength > 16 ? 'cursor-not-allowed' : ''}`}
+					className={`sm:text-sm text-xs text-center shadow-xl m-5 ${maxLength > 16 ? 'cursor-not-allowed' : ''}`}
 					disabled={maxLength > 16}
 					onClick={() => setMaxLength(maxLength + 4)}
 				>
@@ -207,7 +210,7 @@ const Home = () => {
 				</H.HomeButton>
 				<select
 					name='filter'
-					className='w-32 h-10 flex justify-center items-center bg-black text-white rounded-md py-2 px-4 focus:outline-none text-sm shadow-xl m-5 cursor-text'
+					className='w-32 h-10 flex justify-center items-center bg-black text-white rounded-md py-2 px-4 focus:outline-none sm:text-sm text-xs text-center shadow-xl m-5 cursor-text'
 					onChange={(e) => setOption(e.target.value)}
 					disabled={inputSearch.length != 0}
 					value={option}
@@ -225,7 +228,7 @@ const Home = () => {
 					<H.HomeGrid length={maxLength}>
 						{
 							pokemons.slice(0, maxLength).map((p, i) => (
-								<PokemonCard key={`${p.name}-${i}`} name={p.name} />
+								<PokemonCard key={`${p.name}-${i}`} name={p.name} pokeData={p} />
 							))
 						}
 					</H.HomeGrid>
