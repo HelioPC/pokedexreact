@@ -37,38 +37,56 @@ const Home = () => {
 	useEffect(() => {
 		const fetchResults = async () => {
 			try {
-				const data = await api.getPokemons(1008)
+				const pokemonsNamesResponse = await api.getPokemons(1008)
 
-				if (data.status == 200) {
-					data.data.results.map((p: Pokemon) => {
-						setBackendPokemons((pokemons => [...pokemons, p]))
+				if (pokemonsNamesResponse.status == 200) {
+					const pokemonsNames: string[] = []
+					pokemonsNamesResponse.data.results.map((p: Pokemon) => {
+						pokemonsNames.push(p.name)
 					})
 
+					const pokemonsData = await Promise.all(
+						pokemonsNames.map(async (str) => {
+							try {
+								const pokemonDataResponse = await api.getPokemon(str)
+
+								if (pokemonDataResponse.status == 200) {
+									return pokemonDataResponse.data
+								} else throw Error
+							} catch (error) {
+								console.log('erro')
+							}
+						})
+					)
+
+					console.log(pokemonsData)
+					setBackendPokemons(pokemonsData)
+
 					if(inputSearch.length !== 0) {
-						setPokemons([...data.data.results].filter(
+						setPokemons([...pokemonsData].filter(
 							(p) => p.name.toLowerCase()
 								.includes(inputSearch.toLowerCase())
 						))
 					} else {
 						switch (option.toString()) {
 						case filterOptions[1].value:
-							setPokemons([...data.data.results as Pokemon[]].sort((a, b) => a.name > b.name ? 1 : -1))
+							setPokemons([...pokemonsData as Pokemon[]].sort((a, b) => a.name > b.name ? 1 : -1))
 							break
 	
 						case filterOptions[2].value:
-							setPokemons([...data.data.results as Pokemon[]].sort((a, b) => a.name < b.name ? 1 : -1))
+							setPokemons([...pokemonsData as Pokemon[]].sort((a, b) => a.name < b.name ? 1 : -1))
 							break
 						
 						case filterOptions[3].value:
-							setPokemons(data.data.results as Pokemon[])
+							setPokemons(pokemonsData as Pokemon[])
 							break
 						
 						case filterOptions[4].value:
-							setPokemons([...data.data.results as Pokemon[]].reverse())
+							setPokemons([...pokemonsData as Pokemon[]].reverse())
 							break
 	
 						default:
-							setPokemons(data.data.results as Pokemon[])
+							setPokemons(pokemonsData as Pokemon[])
 							break
 						}
 					}
@@ -213,10 +231,10 @@ const Home = () => {
 					</H.HomeGrid>
 				</H.HomeMain>
 			) : (
-				<>
+				<div className='w-full flex flex-col gap-5 justify-center items-center mt-5'>
 					<div>No pokemons</div>
 					<LoadingIndicator promiseInProgress={promiseInProgress} />
-				</>
+				</div>
 			)}
 		</H.HomeScreen>
 	)
