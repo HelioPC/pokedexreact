@@ -45,6 +45,7 @@ const DetailCardComponent = ({ pokemon }: CardComponentProps) => {
 							return t.flavor_text.charAt(0).toUpperCase() + t.flavor_text.slice(1).toLowerCase()
 						}
 					)
+					if (filteredDescriptions.length < 1) return
 					const result = filteredDescriptions.slice(0, filteredDescriptions.length - 1).reduce((acc: any, curr: any, i: any) => {
 						if (i % 2 === 0) {
 							acc.push(curr + ' ' + filteredDescriptions[i + 1])
@@ -90,25 +91,34 @@ const DetailCardComponent = ({ pokemon }: CardComponentProps) => {
 							<div className='w-full h-full flex justify-center items-center p-5 overflow-hidden'>
 								<img
 									src={`${BASE_IMAGE_URL}${pokemon.id}.png`}
-									className='h-full shadow-lg sm:hover:scale-105 xs:duration-300'
+									className='h-full shadow-lg'
 								/>
 							</div>
-							<Carousel id='dcc'>
-								{
-									descriptions.map((d, i) => (
-										<p key={i} className='text-sm text-center font-bold md:my-auto my-8'>
-											{d}
-										</p>
-									))
-								}
-							</Carousel>
+
+							{
+								descriptions.length > 0 ? (
+									<Carousel id='dcc'>
+										{
+											descriptions.map((d, i) => (
+												<p key={i} className='text-sm text-center font-bold md:my-auto my-8'>
+													{d}
+												</p>
+											))
+										}
+									</Carousel>
+								) : (
+									<div className='flex justify-center items-center'>
+										<p className='font-bold text-sm'>Without description</p>
+									</div>
+								)
+							}
 
 							<AnimatedCard
 								id='bsinfo'
 								layoutId01='bs01'
 								layoutId02='bs02'
 								classProps01='w-full h-full flex justify-center items-center p-4'
-								classProps02='h-auto min-h-[50vh] md:w-2/3 w-[95%] absolute md:top-[70%] top-[90%] md:left-[20%] bg-white rounded-lg shadow-xl bg-white border-2 border-solid border-[#EDEDED]'
+								classProps02='h-auto min-h-[50vh] md:w-2/3 w-[95%] absolute md:top-[50%] top-[90%] md:left-[20%] bg-white rounded-lg shadow-xl border-2 border-solid border-[#EDEDED] z-10'
 								children1={
 									<div className='w-full h-auto flex flex-wrap justify-center items-center shadow-lg gap-5 py-10'>
 										<span className='text-sm font-bold bg-[#EDEDED] p-2 shadow-lg rounded-lg'>
@@ -148,7 +158,7 @@ const DetailCardComponent = ({ pokemon }: CardComponentProps) => {
 					)
 				}
 				<CardAbilities pokemon={pokemon} />
-				{pokemonSpecies && <EvolutionChain url={pokemonSpecies.evolution_chain.url} />}
+				{(pokemonSpecies && pokemonSpecies.evolution_chain) && <EvolutionChain url={pokemonSpecies.evolution_chain.url} />}
 			</D.DetailCardBody>
 
 			<CardFooter imageUrl={pokeApiImg} />

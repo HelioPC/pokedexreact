@@ -61,7 +61,7 @@ const CardAbilities = ({ pokemon }: Props) => {
 
 	return (
 		fetched && pokeType != undefined ? (
-			<div className='w-full grid lg:grid-cols-[48%,48%] grid-cols-1 lg:grid-rows-1 grid-rows-2 my-5 justify-center gap-2 lg:px-2 px-4'>
+			<div className='w-full grid lg:grid-cols-[48%,48%] grid-cols-1 lg:grid-rows-1 grid-rows-2 my-5 justify-center gap-2 lg:px-2 px-4 relative'>
 				<NatureCards types={pokeType} pokemon={pokemon} />
 				<CardAbilitiesSection pokemon={pokemon} abilitiesDescription={abilitiesDescription} />
 			</div>

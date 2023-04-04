@@ -14,8 +14,8 @@ const CardAbilitiesSection = ({ pokemon, abilitiesDescription }: Props) => {
 	return (
 		<AnimatedCard
 			id='ablt'
-			classProps01='w-full h-full border-2 border-solid border-[#EDEDED] rounded-lg xs:shadow-lg shadow'
-			classProps02='h-[50vh] min-h-[50vh] sm:w-2/3 w-[80%] absolute md:top-[70%] bg-white rounded-lg shadow-xl bg-white border-2 border-solid border-[#EDEDED]'
+			classProps01='w-full h-full rounded-lg xs:shadow-lg shadow'
+			classProps02='h-[50vh] min-h-[50vh] sm:w-2/3 w-[80%] absolute bottom-[0px] right-0 bg-white rounded-lg shadow-xl bg-white border-2 border-solid border-[#EDEDED]'
 			layoutId01='c01'
 			layoutId02='e02'
 			children1={
