@@ -232,7 +232,7 @@ const Home = () => {
 				</H.HomeMain>
 			) : (
 				<div className='w-full flex flex-col gap-5 justify-center items-center mt-5'>
-					<div>No pokemons</div>
+					{promiseInProgress ?  null : <div>No pokemons</div>}
 					<LoadingIndicator promiseInProgress={promiseInProgress} />
 				</div>
 			)}
