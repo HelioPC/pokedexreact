@@ -40,7 +40,6 @@ const Home = () => {
 				const pokemonsNamesResponse = await api.getPokemons(916)
 
 				if (pokemonsNamesResponse.status == 200) {
-					console.log(pokemonsNamesResponse.data.results)
 					const pokemonsNames: string[] = []
 					pokemonsNamesResponse.data.results.map((p: Pokemon) => {
 						pokemonsNames.push(p.name)
