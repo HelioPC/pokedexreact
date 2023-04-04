@@ -158,7 +158,15 @@ const DetailCardComponent = ({ pokemon }: CardComponentProps) => {
 					)
 				}
 				<CardAbilities pokemon={pokemon} />
-				{(pokemonSpecies && pokemonSpecies.evolution_chain) && <EvolutionChain url={pokemonSpecies.evolution_chain.url} />}
+				{
+					(pokemonSpecies && pokemonSpecies.evolution_chain)
+					&&
+					<EvolutionChain
+						species={pokemonSpecies}
+						descriptions={descriptions}
+						url={pokemonSpecies.evolution_chain.url}
+					/>
+				}
 			</D.DetailCardBody>
 
 			<CardFooter imageUrl={pokeApiImg} />

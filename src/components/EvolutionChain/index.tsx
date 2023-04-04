@@ -2,19 +2,23 @@ import React, { useEffect, useState } from 'react'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
 import { MdKeyboardArrowRight, MdKeyboardArrowDown } from 'react-icons/md'
 import { api } from '../../api'
-import { Pokemon } from '../../types/core'
+import { Pokemon, Species } from '../../types/core'
 import { Tooltip } from 'react-tooltip'
 import LoadingIndicator from '../LoadingIndicator'
 import PokemonCard from '../PokemonCard'
+import { PokeContextActions, usePokeContext } from '../../contexts/PokeContext'
 
 type ComponentProps = {
 	url: string
+	species: Species
+	descriptions: string[]
 }
 
-const EvolutionChain = ({ url }: ComponentProps) => {
+const EvolutionChain = ({ url, species, descriptions }: ComponentProps) => {
 	const { promiseInProgress } = usePromiseTracker()
 	const [fetched, setFetched] = useState(false)
 	const [pokemons, setPokemons] = useState<Pokemon[]>([])
+	const { dispatch } = usePokeContext()
 
 	useEffect(() => {
 		const fetchEvolutionChain = async () => {
@@ -43,8 +47,18 @@ const EvolutionChain = ({ url }: ComponentProps) => {
 							if (data.status !== 200) throw Error
 							else return data.data
 						})
-					)
+					) as Pokemon[]
 					setPokemons(dtg)
+
+					dispatch({
+						type: PokeContextActions.setPokemonDetailInfo,
+						payload: {
+							id: species.id,
+							species: species,
+							evolution_chain: dtg,
+							descriptions: descriptions
+						}
+					})
 				}
 				else throw Error
 			} catch (error) {

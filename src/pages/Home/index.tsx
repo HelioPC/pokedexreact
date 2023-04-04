@@ -8,12 +8,14 @@ import * as H from './style'
 import PokemonCard from '../../components/PokemonCard'
 import LoadingIndicator from '../../components/LoadingIndicator'
 import { formatNumber } from '../../helpers/numbers'
+import { PokeContextActions, usePokeContext } from '../../contexts/PokeContext'
 
 const LOCALSTORAGEFILTERKEY = 'pokeFilterKey'
 const LOCALSTORAGESEARCHKEY = 'pokeSearchKey'
 
 const Home = () => {
 	const { promiseInProgress } = usePromiseTracker()
+	const { state, dispatch } = usePokeContext()
 	const [backendpokemons, setBackendPokemons] = useState<Pokemon[]>([])
 	const [pokemons, setPokemons] = useState<Pokemon[]>([])
 	const searchStorage = localStorage.getItem(LOCALSTORAGESEARCHKEY)
@@ -37,64 +39,76 @@ const Home = () => {
 	useEffect(() => {
 		const fetchResults = async () => {
 			try {
-				const pokemonsNamesResponse = await api.getPokemons(916)
+				let pokemonsToUse: Pokemon[] = []
+				if (state.pokemons.length > 0) {
+					setBackendPokemons(state.pokemons)
+					pokemonsToUse = state.pokemons
+				} else {
+					const pokemonsNamesResponse = await api.getPokemons(916)
 
-				if (pokemonsNamesResponse.status == 200) {
-					const pokemonsNames: string[] = []
-					pokemonsNamesResponse.data.results.map((p: Pokemon) => {
-						pokemonsNames.push(p.name)
-					})
-
-					const pokemonsData = await Promise.all(
-						pokemonsNames.map(async (str) => {
-							try {
-								const pokemonDataResponse = await api.getPokemon(str)
-
-								if (pokemonDataResponse.status == 200) {
-									return pokemonDataResponse.data
-								} else {
-									console.log('erro')
-									throw Error
-								}
-							} catch (error) {
-								console.log('erro')
-							}
+					if (pokemonsNamesResponse.status == 200) {
+						const pokemonsNames: string[] = []
+						pokemonsNamesResponse.data.results.map((p: Pokemon) => {
+							pokemonsNames.push(p.name)
 						})
-					)
 
-					setBackendPokemons(pokemonsData)
+						const pokemonsData = await Promise.all(
+							pokemonsNames.map(async (str) => {
+								try {
+									const pokemonDataResponse = await api.getPokemon(str)
 
-					if(inputSearch.length !== 0) {
-						setPokemons([...pokemonsData].filter(
-							(p) => p.name.toLowerCase()
-								.includes(inputSearch.toLowerCase())
-						))
-					} else {
-						switch (option.toString()) {
-						case filterOptions[1].value:
-							setPokemons([...pokemonsData as Pokemon[]].sort((a, b) => a.name > b.name ? 1 : -1))
-							break
-	
-						case filterOptions[2].value:
-							setPokemons([...pokemonsData as Pokemon[]].sort((a, b) => a.name < b.name ? 1 : -1))
-							break
-						
-						case filterOptions[3].value:
-							setPokemons(pokemonsData as Pokemon[])
-							break
-						
-						case filterOptions[4].value:
-							setPokemons([...pokemonsData as Pokemon[]].reverse())
-							break
-	
-						default:
-							setPokemons(pokemonsData as Pokemon[])
-							break
-						}
+									if (pokemonDataResponse.status == 200) {
+										return pokemonDataResponse.data
+									} else {
+										console.log('erro')
+										throw Error
+									}
+								} catch (error) {
+									console.log('erro')
+								}
+							})
+						)
+
+						setBackendPokemons(pokemonsData)
+						pokemonsToUse = pokemonsData
+
+						dispatch({
+							type: PokeContextActions.setPokemons,
+							payload: pokemonsData
+						})
+					}
+					else console.log('No pokemons available')
+				}
+
+				if(inputSearch.length !== 0) {
+					setPokemons([...pokemonsToUse].filter(
+						(p) => p.name.toLowerCase()
+							.includes(inputSearch.toLowerCase())
+					))
+				} else {
+					switch (option.toString()) {
+					case filterOptions[1].value:
+						setPokemons([...pokemonsToUse as Pokemon[]].sort((a, b) => a.name > b.name ? 1 : -1))
+						break
+
+					case filterOptions[2].value:
+						setPokemons([...pokemonsToUse as Pokemon[]].sort((a, b) => a.name < b.name ? 1 : -1))
+						break
+					
+					case filterOptions[3].value:
+						setPokemons(pokemonsToUse as Pokemon[])
+						break
+					
+					case filterOptions[4].value:
+						setPokemons([...pokemonsToUse as Pokemon[]].reverse())
+						break
+
+					default:
+						setPokemons(pokemonsToUse as Pokemon[])
+						break
 					}
 				}
 
-				else console.log('No pokemons available')
 			} catch (error) { /* empty */ }
 		}
 
@@ -187,7 +201,7 @@ const Home = () => {
 						placeholder='Find by name or id'
 						value={inputSearch}
 						onChange={(e) => setInputSearch(e.target.value)}
-						disabled={option.length != 0}
+						disabled={option.length != 0 || pokemons.length < 1}
 					/>
 				</div>
 			</H.HomeInputArea>
@@ -196,13 +210,14 @@ const Home = () => {
 				<H.HomeButton
 					name='filter'
 					className='sm:text-sm text-xs text-center shadow-xl m-5'
+					disabled={pokemons.length < 1}
 					onClick={() => sortPokemons()}
 				>
 					Surprise me
 				</H.HomeButton>
 				<H.HomeButton
 					className={`sm:text-sm text-xs text-center shadow-xl m-5 ${maxLength > 16 ? 'cursor-not-allowed' : ''}`}
-					disabled={maxLength > 16}
+					disabled={maxLength > 16 || pokemons.length < 1}
 					onClick={() => setMaxLength(maxLength + 4)}
 				>
 					Load more
@@ -211,7 +226,7 @@ const Home = () => {
 					name='filter'
 					className='w-32 h-10 flex justify-center items-center bg-black text-white rounded-md py-2 px-4 focus:outline-none sm:text-sm text-xs text-center shadow-xl m-5 cursor-text'
 					onChange={(e) => setOption(e.target.value)}
-					disabled={inputSearch.length != 0}
+					disabled={inputSearch.length != 0 || pokemons.length < 1}
 					value={option}
 				>
 					{

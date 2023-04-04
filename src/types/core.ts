@@ -7,6 +7,8 @@ type Stats = {
 }
 
 export type Species = {
+    id: number
+    name: string
     flavor_text_entries: {
         flavor_text: string
         language: {
