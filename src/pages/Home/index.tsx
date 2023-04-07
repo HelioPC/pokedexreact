@@ -7,8 +7,8 @@ import { Pokemon } from '../../types/core'
 import * as H from './style'
 import PokemonCard from '../../components/PokemonCard'
 import LoadingIndicator from '../../components/LoadingIndicator'
-import { formatNumber } from '../../helpers/numbers'
 import { PokeContextActions, usePokeContext } from '../../contexts/PokeContext'
+import { handlePokemonsFilterByQuery } from '../../utils/searchFilter'
 
 const LOCALSTORAGEFILTERKEY = 'pokeFilterKey'
 const LOCALSTORAGESEARCHKEY = 'pokeSearchKey'
@@ -23,6 +23,12 @@ const Home = () => {
 		searchStorage ? searchStorage as string : ''
 	)
 	const [maxLength, setMaxLength] = useState(8)
+	const filterStorage = localStorage.getItem(LOCALSTORAGEFILTERKEY)
+	const [option, setOption] = useState(
+		filterStorage ? JSON.parse(filterStorage) as string : ''
+	)
+	const [type, setType] = useState('Type')
+		
 	const filterOptions = [
 		{ title: 'All', value: '', },
 		{ title: 'A-Z', value: '0', },
@@ -30,11 +36,28 @@ const Home = () => {
 		{ title: 'Min. id', value: '2', },
 		{ title: 'Max. id', value: '3', },
 	]
-	const filterStorage = localStorage.getItem(LOCALSTORAGEFILTERKEY)
-	const [option, setOption] = useState(
-		filterStorage ? JSON.parse(filterStorage) as string : ''
-	)
-
+	// Normal, Fire, Water, Grass, Flying, Fighting, Poison, Electric, Ground, Rock, Psychic, Ice, Bug, Ghost, Steel, Dragon, Dark and Fairy
+	const filterTypeOptions = [
+		{ title: 'Type', value: '', },
+		{ title: 'Normal', value: '0', },
+		{ title: 'Fire', value: '1', },
+		{ title: 'Water', value: '2', },
+		{ title: 'Grass', value: '3', },
+		{ title: 'Flying', value: '4', },
+		{ title: 'Fighting', value: '5', },
+		{ title: 'Poison', value: '6', },
+		{ title: 'Electric', value: '7', },
+		{ title: 'Ground', value: '8', },
+		{ title: 'Rock', value: '9', },
+		{ title: 'Psychic', value: '10', },
+		{ title: 'Ice', value: '11', },
+		{ title: 'Bug', value: '12', },
+		{ title: 'Ghost', value: '13', },
+		{ title: 'Steel', value: '14', },
+		{ title: 'Dragon', value: '15', },
+		{ title: 'Dark', value: '16', },
+		{ title: 'Fairy', value: '17', },
+	]
 	// Fetch all pokemons
 	useEffect(() => {
 		const fetchResults = async () => {
@@ -121,17 +144,13 @@ const Home = () => {
 	useEffect(() => {
 		const filterSearchInput = () => {
 			if (backendpokemons.length == 0) return
+			if (type != filterTypeOptions[0].value) return
 			if (inputSearch.length !== 0) {
 				if (option != filterOptions[0].value) {
 					setOption(filterOptions[0].value)
 					localStorage.setItem(LOCALSTORAGEFILTERKEY, filterOptions[0].value)
 				}
-				setPokemons(backendpokemons.filter(
-					(p) => p.name.toLowerCase()
-						.includes(inputSearch.toLowerCase()) ||
-						formatNumber(backendpokemons.indexOf(p) + 1)
-							.includes(inputSearch)
-				))
+				setPokemons(handlePokemonsFilterByQuery(inputSearch, backendpokemons))
 			}
 			else {
 				setPokemons(backendpokemons)
@@ -143,44 +162,65 @@ const Home = () => {
 
 	useEffect(() => {
 		const filterSelectOption = () => {
-			if (backendpokemons.length == 0) return
+			if (pokemons.length == 0) return
 			if (inputSearch.length != 0) return
 			switch (option.toString()) {
 			case filterOptions[1].value:
 				setInputSearch('')
 				localStorage.setItem(LOCALSTORAGESEARCHKEY, '')
 				localStorage.setItem(LOCALSTORAGEFILTERKEY, option)
-				setPokemons([...backendpokemons].sort((a, b) => a.name > b.name ? 1 : -1))
+				setPokemons([...pokemons].sort((a, b) => a.name > b.name ? 1 : -1))
 				break
 
 			case filterOptions[2].value:
 				localStorage.setItem(LOCALSTORAGEFILTERKEY, option)
-				setPokemons([...backendpokemons].sort((a, b) => a.name < b.name ? 1 : -1))
+				setPokemons([...pokemons].sort((a, b) => a.name < b.name ? 1 : -1))
 				break
 
 			case filterOptions[3].value:
 				localStorage.setItem(LOCALSTORAGEFILTERKEY, option)
-				setPokemons(backendpokemons)
+				setPokemons([...pokemons].sort((a, b) => a.id > b.id ? 1 : -1))
 				break
 
 			case filterOptions[4].value:
 				localStorage.setItem(LOCALSTORAGEFILTERKEY, option)
-				setPokemons([...backendpokemons].reverse())
+				setPokemons([...pokemons].sort((a, b) => a.id < b.id ? 1 : -1))
 				break
 
 			case filterOptions[0].value:
+				if (type == filterTypeOptions[0].title) break
 				localStorage.setItem(LOCALSTORAGEFILTERKEY, option)
-				setPokemons(backendpokemons)
+				setPokemons([...pokemons].sort((a, b) => a.id > b.id ? 1 : -1))
 				break
 
 			default:
 				localStorage.setItem(LOCALSTORAGEFILTERKEY, option)
-				setPokemons(backendpokemons)
+				setPokemons([...pokemons].sort((a, b) => a.id > b.id ? 1 : -1))
 				break
 			}
 		}
 		filterSelectOption()
 	}, [option])
+	
+	useEffect(() => {
+		const filterSelectOption = () => {
+			if (backendpokemons.length == 0) return
+			if (inputSearch.length != 0) return
+			if (type == filterTypeOptions[0].title) {
+				setOption(filterOptions[0].value)
+				localStorage.setItem(LOCALSTORAGEFILTERKEY, filterOptions[0].value)
+				setPokemons(backendpokemons)
+				return
+			}
+			setPokemons(
+				[...backendpokemons].filter(
+					(p) => p.types
+						.find((t) => t.type.name.toLowerCase() == type.toLowerCase()) != undefined
+				)
+			)
+		}
+		filterSelectOption()
+	}, [type])
 
 	const sortPokemons = () => {
 		const sorted = [...pokemons].sort(() => Math.random() - 0.5)
@@ -201,7 +241,11 @@ const Home = () => {
 						placeholder='Find by name or id'
 						value={inputSearch}
 						onChange={(e) => setInputSearch(e.target.value)}
-						disabled={option.length != 0 || pokemons.length < 1}
+						disabled={
+							(option.length != 0) ||
+							(backendpokemons.length < 1) ||
+							(type.length != 0)
+						}
 					/>
 				</div>
 			</H.HomeInputArea>
@@ -209,14 +253,14 @@ const Home = () => {
 			<H.HomeFilterArea>
 				<H.HomeButton
 					name='filter'
-					className='sm:text-sm text-xs text-center shadow-xl m-5'
+					className='sm:text-sm text-xs text-center shadow-xl m-3'
 					disabled={pokemons.length < 1}
 					onClick={() => sortPokemons()}
 				>
 					Surprise me
 				</H.HomeButton>
 				<H.HomeButton
-					className={`sm:text-sm text-xs text-center shadow-xl m-5 ${maxLength > 16 ? 'cursor-not-allowed' : ''}`}
+					className={`sm:text-sm text-xs text-center shadow-xl m-3 ${maxLength > 16 ? 'cursor-not-allowed' : ''}`}
 					disabled={maxLength > 16 || pokemons.length < 1}
 					onClick={() => setMaxLength(maxLength + 4)}
 				>
@@ -224,9 +268,12 @@ const Home = () => {
 				</H.HomeButton>
 				<select
 					name='filter'
-					className='w-32 h-10 flex justify-center items-center bg-black text-white rounded-md py-2 px-4 focus:outline-none sm:text-sm text-xs text-center shadow-xl m-5 cursor-text'
+					className='w-32 h-10 flex justify-center items-center bg-black text-white rounded-md py-2 px-4 focus:outline-none sm:text-sm text-xs text-center shadow-xl m-3 cursor-text'
 					onChange={(e) => setOption(e.target.value)}
-					disabled={inputSearch.length != 0 || pokemons.length < 1}
+					disabled={
+						(inputSearch.length != 0) ||
+						(pokemons.length < 1)
+					}
 					value={option}
 				>
 					{
@@ -235,6 +282,23 @@ const Home = () => {
 						))
 					}
 				</select>
+				<select
+					name='type'
+					className='w-32 h-10 flex justify-center items-center bg-black text-white rounded-md py-2 px-4 focus:outline-none sm:text-sm text-xs text-center shadow-xl m-3 cursor-text'
+					onChange={(e) => setType(e.target.value)}
+					disabled={
+						(inputSearch.length != 0) ||
+						(pokemons.length < 1)
+					}
+					value={type}
+				>
+					{
+						filterTypeOptions.map((o, i) => (
+							<option key={i} value={o.title}>{o.title}</option>
+						))
+					}
+				</select>
+				{type != 'Type' ? <span>{pokemons.length}</span> : null}
 			</H.HomeFilterArea>
 
 			{pokemons.length !== 0 ? (
