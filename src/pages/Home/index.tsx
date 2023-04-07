@@ -38,25 +38,25 @@ const Home = () => {
 	]
 	// Normal, Fire, Water, Grass, Flying, Fighting, Poison, Electric, Ground, Rock, Psychic, Ice, Bug, Ghost, Steel, Dragon, Dark and Fairy
 	const filterTypeOptions = [
-		{ title: 'Type', value: '', },
-		{ title: 'Normal', value: '0', },
-		{ title: 'Fire', value: '1', },
-		{ title: 'Water', value: '2', },
-		{ title: 'Grass', value: '3', },
-		{ title: 'Flying', value: '4', },
-		{ title: 'Fighting', value: '5', },
-		{ title: 'Poison', value: '6', },
-		{ title: 'Electric', value: '7', },
-		{ title: 'Ground', value: '8', },
-		{ title: 'Rock', value: '9', },
-		{ title: 'Psychic', value: '10', },
-		{ title: 'Ice', value: '11', },
-		{ title: 'Bug', value: '12', },
-		{ title: 'Ghost', value: '13', },
-		{ title: 'Steel', value: '14', },
-		{ title: 'Dragon', value: '15', },
-		{ title: 'Dark', value: '16', },
-		{ title: 'Fairy', value: '17', },
+		'Type',
+		'Normal',
+		'Fire',
+		'Water',
+		'Grass',
+		'Flying',
+		'Fighting',
+		'Poison',
+		'Electric',
+		'Ground',
+		'Rock',
+		'Psychic',
+		'Ice',
+		'Bug',
+		'Ghost',
+		'Steel',
+		'Dragon',
+		'Dark',
+		'Fairy',
 	]
 	// Fetch all pokemons
 	useEffect(() => {
@@ -144,7 +144,7 @@ const Home = () => {
 	useEffect(() => {
 		const filterSearchInput = () => {
 			if (backendpokemons.length == 0) return
-			if (type != filterTypeOptions[0].value) return
+			if (type != filterTypeOptions[0]) return
 			if (inputSearch.length !== 0) {
 				if (option != filterOptions[0].value) {
 					setOption(filterOptions[0].value)
@@ -188,7 +188,7 @@ const Home = () => {
 				break
 
 			case filterOptions[0].value:
-				if (type == filterTypeOptions[0].title) break
+				if (type == filterTypeOptions[0]) break
 				localStorage.setItem(LOCALSTORAGEFILTERKEY, option)
 				setPokemons([...pokemons].sort((a, b) => a.id > b.id ? 1 : -1))
 				break
@@ -206,7 +206,7 @@ const Home = () => {
 		const filterSelectOption = () => {
 			if (backendpokemons.length == 0) return
 			if (inputSearch.length != 0) return
-			if (type == filterTypeOptions[0].title) {
+			if (type == filterTypeOptions[0]) {
 				setOption(filterOptions[0].value)
 				localStorage.setItem(LOCALSTORAGEFILTERKEY, filterOptions[0].value)
 				setPokemons(backendpokemons)
@@ -242,9 +242,9 @@ const Home = () => {
 						value={inputSearch}
 						onChange={(e) => setInputSearch(e.target.value)}
 						disabled={
-							(option.length != 0) ||
+							(option != filterOptions[0].value) ||
 							(backendpokemons.length < 1) ||
-							(type.length != 0)
+							(type != filterTypeOptions[0])
 						}
 					/>
 				</div>
@@ -294,7 +294,7 @@ const Home = () => {
 				>
 					{
 						filterTypeOptions.map((o, i) => (
-							<option key={i} value={o.title}>{o.title}</option>
+							<option key={i} value={o}>{o}</option>
 						))
 					}
 				</select>
