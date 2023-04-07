@@ -33,6 +33,7 @@ A website to view all pokemons and their details. UI made by me 😅
 - [x] Display pokemon stats (attack, hp, defense, speed, etc.)
 - [x] Display pokemon types, weaknesses, resistances and abilities
 - [x] Display pokemon evolution chain
+- [x] Animate cards
 
 ![Detail screen 1](screenshots/screenshot03.png)
 
