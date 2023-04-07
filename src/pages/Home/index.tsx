@@ -201,7 +201,7 @@ const Home = () => {
 						placeholder='Find by name or id'
 						value={inputSearch}
 						onChange={(e) => setInputSearch(e.target.value)}
-						disabled={option.length != 0 || pokemons.length < 1}
+						disabled={option.length != 0 || backendpokemons.length < 1}
 					/>
 				</div>
 			</H.HomeInputArea>
