@@ -130,7 +130,8 @@ const Home = () => {
 					(p) => p.name.toLowerCase()
 						.includes(inputSearch.toLowerCase()) ||
 						formatNumber(backendpokemons.indexOf(p) + 1)
-							.includes(inputSearch)
+							.includes(inputSearch) ||
+						p.types.find(t => t.type.name == inputSearch) != undefined
 				))
 			}
 			else {
