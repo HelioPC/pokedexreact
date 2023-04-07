@@ -17,6 +17,7 @@ import CardFooter from './CardFooter'
 import CardAbilities from './CardAbilities'
 import AnimatedCard from '../../../components/AnimatedCard'
 import LoadingIndicator from '../../../components/LoadingIndicator'
+import { usePokeContext } from '../../../contexts/PokeContext'
 
 type CardComponentProps = {
 	pokemon: Pokemon
@@ -28,34 +29,41 @@ const DetailCardComponent = ({ pokemon }: CardComponentProps) => {
 	const { promiseInProgress } = usePromiseTracker()
 	const [pokemonSpecies, setPokemonSpecies] = useState<Species>()
 	const [descriptions, setDescriptions] = useState<string[]>([])
+	const { state } = usePokeContext()
 
 	useEffect(() => {
 		const fetchResults = async () => {
-			try {
-				const data = await api.getPokemonSpecies(pokemon.id.toString())
-
-				if (data.status == 200) {
-					setPokemonSpecies(data.data)
-					const filteredDescriptions = data.data.flavor_text_entries.filter(
-						(t: any, i: number, self: any) => t.language.name == 'en' && i < 11 && i === self.findIndex((value: any) => (
-							t.flavor_text === value.flavor_text && t.language.name == 'en'
-						))
-					).map(
-						(t: any) => {
-							return t.flavor_text.charAt(0).toUpperCase() + t.flavor_text.slice(1).toLowerCase()
-						}
-					)
-					if (filteredDescriptions.length < 1) return
-					const result = filteredDescriptions.slice(0, filteredDescriptions.length - 1).reduce((acc: any, curr: any, i: any) => {
-						if (i % 2 === 0) {
-							acc.push(curr + ' ' + filteredDescriptions[i + 1])
-						}
-						return acc
-					}, [])
-					result.push(filteredDescriptions[filteredDescriptions.length - 1])
-					setDescriptions(result)
-				}
-			} catch (error) { /* empty */ }
+			const pokeInfoState = state.pokemonsDetailInfo.find((d) => d.id == pokemon.id)
+			if (pokeInfoState) {
+				setPokemonSpecies(pokeInfoState.species)
+				setDescriptions(pokeInfoState.descriptions)
+			} else {
+				try {
+					const data = await api.getPokemonSpecies(pokemon.id.toString())
+	
+					if (data.status == 200) {
+						setPokemonSpecies(data.data)
+						const filteredDescriptions = data.data.flavor_text_entries.filter(
+							(t: any, i: number, self: any) => t.language.name == 'en' && i < 11 && i === self.findIndex((value: any) => (
+								t.flavor_text === value.flavor_text && t.language.name == 'en'
+							))
+						).map(
+							(t: any) => {
+								return t.flavor_text.charAt(0).toUpperCase() + t.flavor_text.slice(1).toLowerCase()
+							}
+						)
+						if (filteredDescriptions.length < 1) return
+						const result = filteredDescriptions.slice(0, filteredDescriptions.length - 1).reduce((acc: any, curr: any, i: any) => {
+							if (i % 2 === 0) {
+								acc.push(curr + ' ' + filteredDescriptions[i + 1])
+							}
+							return acc
+						}, [])
+						result.push(filteredDescriptions[filteredDescriptions.length - 1])
+						setDescriptions(result)
+					}
+				} catch (error) { /* empty */ }
+			}
 		}
 
 		trackPromise(
@@ -158,7 +166,15 @@ const DetailCardComponent = ({ pokemon }: CardComponentProps) => {
 					)
 				}
 				<CardAbilities pokemon={pokemon} />
-				{(pokemonSpecies && pokemonSpecies.evolution_chain) && <EvolutionChain url={pokemonSpecies.evolution_chain.url} />}
+				{
+					(pokemonSpecies && pokemonSpecies.evolution_chain)
+					&&
+					<EvolutionChain
+						species={pokemonSpecies}
+						descriptions={descriptions}
+						url={pokemonSpecies.evolution_chain.url}
+					/>
+				}
 			</D.DetailCardBody>
 
 			<CardFooter imageUrl={pokeApiImg} />

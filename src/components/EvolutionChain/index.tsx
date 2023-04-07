@@ -2,53 +2,78 @@ import React, { useEffect, useState } from 'react'
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker'
 import { MdKeyboardArrowRight, MdKeyboardArrowDown } from 'react-icons/md'
 import { api } from '../../api'
-import { Pokemon } from '../../types/core'
+import { Pokemon, Species } from '../../types/core'
 import { Tooltip } from 'react-tooltip'
 import LoadingIndicator from '../LoadingIndicator'
 import PokemonCard from '../PokemonCard'
+import { PokeContextActions, usePokeContext } from '../../contexts/PokeContext'
 
 type ComponentProps = {
 	url: string
+	species: Species
+	descriptions: string[]
 }
 
-const EvolutionChain = ({ url }: ComponentProps) => {
+const EvolutionChain = ({ url, species, descriptions }: ComponentProps) => {
 	const { promiseInProgress } = usePromiseTracker()
 	const [fetched, setFetched] = useState(false)
 	const [pokemons, setPokemons] = useState<Pokemon[]>([])
+	const { dispatch, state } = usePokeContext()
 
 	useEffect(() => {
 		const fetchEvolutionChain = async () => {
 			if (pokemons.length != 0) return
-			try {
-				const result = await api.getPokemonEvolutionChain(url)
-				let evoData = result.data.chain
-				const pokemonsNames: string[] = []
+			const storedState = state.pokemonsDetailInfo
+				.find(
+					(d) => d.id == species.id && d.evolution_chain != undefined
+				)
 
-				pokemonsNames.push(evoData.species.url)
+			if (storedState) {
+				setPokemons(storedState.evolution_chain)
+			} else {
+				try {
+					const result = await api.getPokemonEvolutionChain(url)
+					let evoData = result.data.chain
+					const pokemonsNames: string[] = []
 
-				do {
-					// eslint-disable-next-line @typescript-eslint/no-explicit-any
-					evoData.evolves_to.map((p: any) => {
-						pokemonsNames.push(p.species.url)
-					})
-					evoData = evoData.evolves_to[0]
-				} while (evoData.evolves_to.length > 0 && Object.prototype.hasOwnProperty.call(evoData, 'evolves_to'))
+					pokemonsNames.push(evoData.species.url)
 
-				if (pokemonsNames.length != 0) {
-					const dtg = await Promise.all(
-						pokemonsNames.map(async (name) => {
-							const id = name.slice(42)
-							const data = await api.getPokemon(id.slice(0, id.length - 1))
-
-							if (data.status !== 200) throw Error
-							else return data.data
+					do {
+						// eslint-disable-next-line @typescript-eslint/no-explicit-any
+						evoData.evolves_to.map((p: any) => {
+							pokemonsNames.push(p.species.url)
 						})
-					)
-					setPokemons(dtg)
+						evoData = evoData.evolves_to[0]
+					} while (evoData.evolves_to.length > 0 && Object.prototype.hasOwnProperty.call(evoData, 'evolves_to'))
+
+					if (pokemonsNames.length != 0) {
+						const dtg = await Promise.all(
+							pokemonsNames.map(async (name) => {
+								const id = name.slice(42)
+								const data = await api.getPokemon(id.slice(0, id.length - 1))
+
+								if (data.status !== 200) throw Error
+								else return data.data
+							})
+						) as Pokemon[]
+						setPokemons(dtg)
+
+						if (!state.pokemonsDetailInfo.find((d) => d.id == species.id)) {
+							dispatch({
+								type: PokeContextActions.setPokemonDetailInfo,
+								payload: {
+									id: species.id,
+									species: species,
+									evolution_chain: dtg,
+									descriptions: descriptions
+								}
+							})
+						}
+					}
+					else throw Error
+				} catch (error) {
+					throw Error
 				}
-				else throw Error
-			} catch (error) {
-				throw Error
 			}
 		}
 
