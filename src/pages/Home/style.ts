@@ -53,9 +53,10 @@ export const HomeFilterArea = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 10px 0;
 
-    @media (max-width: 350px) {
-        flex-direction: column;
+    @media (max-width: 767px) {
+        flex-wrap: wrap;
     }
 `
 
@@ -79,13 +80,14 @@ export const HomeButton = styled.button`
     background-color: black;
     color: white;
     border-radius: 8px;
-    padding: 8px 16px;
+    padding: 8px;
 `
 
 export const HomeGrid = styled.div<{ length: number }>`
     max-width: 1280px;
     margin: 0 auto;
     display: grid;
+    place-items: center;
     gap: 20px;
     grid-template-columns: repeat(1, calc(100vw - 10vw));
     grid-template-rows: repeat(${props => props.length}, auto);
