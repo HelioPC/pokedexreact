@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // Context, Reducer, Provider, Hook
-import React, { createContext, ReactNode, useContext, useEffect, useReducer } from 'react'
+import React, { createContext, ReactNode, useContext, useReducer } from 'react'
 import { Pokemon, Species } from '../types/core'
 
+// TODO: Add abilities desciption to state
 type State = {
     pokemons: Pokemon[]
 	pokemonsDetailInfo: {
@@ -65,8 +66,6 @@ const pokeReducer = (state: State, action: Action) => {
 export const PokeProvider = ({ children }: PokeProviderProps) => {
 	const [state, dispatch] = useReducer(pokeReducer, initialData)
 	const value = { state, dispatch }
-
-	useEffect(() => { console.log(state) }, [state])
 
 	return (
 		<PokeContext.Provider value={value} >
