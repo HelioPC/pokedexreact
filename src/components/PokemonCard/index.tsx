@@ -31,7 +31,7 @@ const PokemonCard = ({ name, pokeData }: PokemonCardProps) => {
 	return (
 		pokemon ? (
 			<Link to={`/pokemon/${pokemon.id}`} state={{ fromApp: true, pokemon: pokemon }}>
-				<div className='w-full h-full rounded-md hover:shadow-xl shadow-lg duration-300 hover:scale-[1.02] cursor-pointer bg-white pb-2'>
+				<div className='w-full h-full max-w-[200px] rounded-md hover:shadow-xl shadow-lg duration-300 hover:scale-[1.02] cursor-pointer bg-white pb-2'>
 					<div className='w-full flex justify-center h-auto bg-[#f5f5f5] rounded-t-md overflow-hidden'>
 						<img
 							src={`${BASE_IMAGE_URL}${pokemon.id}.png`}

@@ -21,7 +21,7 @@ type Props = {
 const BasicInfo = ({ height, weight, gender_rate, capture_rate, hatch_counter, base_experience, growth_rate, egg_groups }: Props) => {
 	return (
 		<div className='w-full h-full grid xs:grid-cols-2 xs:grid-rows-2 grid-cols-[repeat(1,auto)] grid-rows-[repeat(4,auto)] gap-5 p-10'>
-			<div className='flex flex-col justify-center items-center gap-4 xs:shadow-lg shadow rounded-lg py-5'>
+			<div className='flex flex-col justify-center items-center gap-4 shadow rounded-lg py-5'>
 				<p className='font-bold'>Dimension</p>
 				<div className='flex flex-wrap justify-center items-center gap-2'>
 					<div className='flex items-center gap-2'>
@@ -34,7 +34,7 @@ const BasicInfo = ({ height, weight, gender_rate, capture_rate, hatch_counter, b
 					</div>
 				</div>
 			</div>
-			<div className='flex flex-col justify-center items-center gap-4 xs:shadow-lg shadow rounded-lg py-5'>
+			<div className='flex flex-col justify-center items-center gap-4 shadow rounded-lg py-5'>
 				<p className='font-bold'>Breeding</p>
 				<div className='flex flex-wrap justify-center items-center gap-2'>
 					<div className='flex flex-wrap items-center justify-center gap-2'>
@@ -60,7 +60,7 @@ const BasicInfo = ({ height, weight, gender_rate, capture_rate, hatch_counter, b
 					</div>
 				</div>
 			</div>
-			<div className='flex flex-col justify-center items-center gap-4 xs:shadow-lg shadow rounded-lg py-5'>
+			<div className='flex flex-col justify-center items-center gap-4 shadow rounded-lg py-5'>
 				<p className='font-bold'>Egg info</p>
 				<div className='flex flex-wrap justify-center items-center gap-2'>
 					{
@@ -81,24 +81,24 @@ const BasicInfo = ({ height, weight, gender_rate, capture_rate, hatch_counter, b
 					}
 				</div>
 			</div>
-			<div className='flex flex-col justify-center items-center gap-4 xs:shadow-lg shadow rounded-lg py-5'>
+			<div className='flex flex-col justify-center items-center gap-4 shadow rounded-lg py-5'>
 				<p className='font-bold'>Training</p>
 				<div className='flex flex-wrap justify-center items-center gap-2'>
 					<div className='flex flex-wrap items-center justify-center gap-2'>
-						<p className='text-xs font-bold'>Catch Rate</p>
+						<p className='text-xs font-bold'>Catch Rate:</p>
 						<p className='text-xs text-[#7B7B7B] font-bold'>
 							{((capture_rate * 100) / 255).toFixed(1)}%
 						</p>
 					</div>
 					{
 						base_experience && <div className='flex flex-wrap items-center justify-center gap-2'>
-							<p className='text-xs font-bold'>Base exp.</p>
+							<p className='text-xs font-bold'>Base exp.:</p>
 							<p className='text-xs text-[#7B7B7B] font-bold'>{base_experience}</p>
 						</div>
 					}
 					{
 						growth_rate && <div className='flex flex-wrap items-center justify-center gap-2'>
-							<p className='text-xs font-bold'>Growth rate</p>
+							<p className='text-xs font-bold'>Growth rate:</p>
 							<p className='text-xs text-[#7B7B7B] font-bold'>
 								{growth_rate.name.split('-').join(', ')}
 							</p>
