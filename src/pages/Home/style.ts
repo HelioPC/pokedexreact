@@ -1,8 +1,10 @@
-import styled from 'styled-components'
+import styled, { DefaultTheme } from 'styled-components'
 
-export const HomeScreen = styled.div`
+export const HomeScreen = styled.div<{ theme: DefaultTheme }>`
     width: 100%;
     height: 100%;
+    background-color: ${props => props.theme.theme.colors.mainBg};
+    color: ${props => props.theme.theme.colors.textPrimary};
     min-height: 100vh;
     display: flex;
     flex-direction: column;

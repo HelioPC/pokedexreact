@@ -9,6 +9,7 @@ import PokemonCard from '../../components/PokemonCard'
 import LoadingIndicator from '../../components/LoadingIndicator'
 import { PokeContextActions, usePokeContext } from '../../contexts/PokeContext'
 import { handlePokemonsFilterByQuery } from '../../utils/searchFilter'
+import { useAppTheme } from '../../contexts/ThemeContext'
 
 const LOCALSTORAGEFILTERKEY = 'pokeFilterKey'
 const LOCALSTORAGESEARCHKEY = 'pokeSearchKey'
@@ -16,6 +17,7 @@ const LOCALSTORAGESEARCHKEY = 'pokeSearchKey'
 const Home = () => {
 	const { promiseInProgress } = usePromiseTracker()
 	const { state, dispatch } = usePokeContext()
+	const { theme, switchTheme } = useAppTheme()
 	const [backendpokemons, setBackendPokemons] = useState<Pokemon[]>([])
 	const [pokemons, setPokemons] = useState<Pokemon[]>([])
 	const searchStorage = localStorage.getItem(LOCALSTORAGESEARCHKEY)
@@ -228,7 +230,7 @@ const Home = () => {
 	}
 
 	return (
-		<H.HomeScreen>
+		<H.HomeScreen theme={{theme: theme, switchTheme: switchTheme}}>
 			<H.HomeInputArea className='shadow-lg'>
 				<div>
 					<MdOutlineSearch
