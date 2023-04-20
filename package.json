@@ -20,6 +20,7 @@
     "react-loader-spinner": "^5.3.4",
     "react-promise-tracker": "^2.1.1",
     "react-router-dom": "^6.8.1",
+    "react-tilt": "^1.0.2",
     "react-tooltip": "^5.10.0",
     "styled-components": "^5.3.6"
   },
