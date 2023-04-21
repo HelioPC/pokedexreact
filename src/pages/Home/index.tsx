@@ -10,6 +10,7 @@ import LoadingIndicator from '../../components/LoadingIndicator'
 import { PokeContextActions, usePokeContext } from '../../contexts/PokeContext'
 import { handlePokemonsFilterByQuery } from '../../utils/searchFilter'
 import { useAppTheme } from '../../contexts/ThemeContext'
+import ThemeSwitcher from '../../components/ThemeSwitcher'
 
 const LOCALSTORAGEFILTERKEY = 'pokeFilterKey'
 const LOCALSTORAGESEARCHKEY = 'pokeSearchKey'
@@ -231,16 +232,19 @@ const Home = () => {
 
 	return (
 		<H.HomeScreen theme={{theme: theme, switchTheme: switchTheme}}>
-			<H.HomeInputArea className='shadow-lg'>
+			<div className='absolute top-2 right-10'>
+				<ThemeSwitcher />
+			</div>
+			<H.HomeInputArea>
 				<div>
 					<MdOutlineSearch
 						size={24}
-						color='#000'
 						className='mr-2 ml-5'
 					/>
 					<input
 						type='text'
 						placeholder='Find by name or id'
+						autoFocus
 						value={inputSearch}
 						onChange={(e) => setInputSearch(e.target.value)}
 						disabled={
@@ -268,9 +272,8 @@ const Home = () => {
 				>
 					Load more
 				</H.HomeButton>
-				<select
+				<H.HomeSelectOption
 					name='filter'
-					className='w-32 h-10 flex justify-center items-center bg-black text-white rounded-md py-2 px-4 focus:outline-none sm:text-sm text-xs text-center shadow-xl m-3 cursor-text'
 					onChange={(e) => setOption(e.target.value)}
 					disabled={
 						(inputSearch.length != 0) ||
@@ -283,10 +286,9 @@ const Home = () => {
 							<option key={i} value={o.value}>{o.title}</option>
 						))
 					}
-				</select>
-				<select
+				</H.HomeSelectOption>
+				<H.HomeSelectOption
 					name='type'
-					className='w-32 h-10 flex justify-center items-center bg-black text-white rounded-md py-2 px-4 focus:outline-none sm:text-sm text-xs text-center shadow-xl m-3 cursor-text'
 					onChange={(e) => setType(e.target.value)}
 					disabled={
 						(inputSearch.length != 0) ||
@@ -299,7 +301,7 @@ const Home = () => {
 							<option key={i} value={o}>{o}</option>
 						))
 					}
-				</select>
+				</H.HomeSelectOption>
 				{type != 'Type' ? <span>{pokemons.length}</span> : null}
 			</H.HomeFilterArea>
 

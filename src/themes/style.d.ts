@@ -7,11 +7,12 @@ declare module 'styled-components' {
             colors: {
                 primary: string;
                 mainBg: string;
-                sideBarBg: string;
-                sideBarLabelBg: string;
+                button: string
+                textButton: string;
+                barBackground: string;
+                cardBackground: string;
+                cardSecundary: string;
                 textPrimary: string;
-                textSecundary: string;
-                active: string;
             };
         };
         switchTheme: () => void;

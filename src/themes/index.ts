@@ -4,13 +4,14 @@ export const light: DefaultTheme['theme'] = {
 	name: 'light',
 
 	colors: {
-		primary: '#2564CF',
+		primary: '#000000',
 		mainBg: '#F2F3FA',
-		sideBarBg: '#FFFFFF',
-		sideBarLabelBg: '#EFF6FC',
+		button: '#121212',
+		textButton: '#FFFFFF',
+		barBackground: '#FFFFFF',
+		cardBackground: '#FFFFFF',
+		cardSecundary: '#F5F5F5',
 		textPrimary: '#000000',
-		textSecundary: '#605E5C',
-		active: '#78BAFD',
 	}
 }
 
@@ -18,12 +19,13 @@ export const dark: DefaultTheme['theme'] = {
 	name: 'dark',
 
 	colors: {
-		primary: '#2564CF',
-		mainBg: '#11100F',
-		sideBarBg: '#252423',
-		sideBarLabelBg: '#3B3A39',
+		primary: '#FFFFFF',
+		mainBg: '#181818',
+		button: '#252423',
+		textButton: '#FFFFFF',
+		barBackground: '#252423',
+		cardBackground: '#252423',
+		cardSecundary: '#3D3D3D',
 		textPrimary: '#FFFFFF',
-		textSecundary: '#A19F9D',
-		active: '#78BAFD',
 	}
 }
