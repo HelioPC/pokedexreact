@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useAppTheme } from '../../contexts/ThemeContext'
 
 type Props = {
 	children: JSX.Element[]
@@ -7,6 +8,7 @@ type Props = {
 
 const Carousel = ({ children, id }: Props) => {
 	const [index, setIndex] = useState(0)
+	const { theme } = useAppTheme()
 
 	useEffect(() => {
 		if (children.length < 2) return
@@ -52,6 +54,10 @@ const Carousel = ({ children, id }: Props) => {
 								h-3 w-3 rounded-[50%] cursor-pointer
 								${i == index ? 'bg-white border-2 border-solid border-black' : 'bg-black'}
 							`}
+							style={{
+								backgroundColor: `${i == index ? theme.colors.textPrimary : theme.colors.mainBg}`,
+								border: `solid 2px ${i == index ? theme.colors.mainBg : theme.colors.textPrimary}`,
+							}}
 							onClick={() => setIndex(i)}
 						/>
 					)) : null

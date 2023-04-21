@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { MdDarkMode, MdLightbulb } from 'react-icons/md'
 import Switch from 'react-switch'
 import { useAppTheme } from '../../contexts/ThemeContext'
 
@@ -16,8 +17,16 @@ const ThemeSwitcher = () => {
 			width={40}
 			onChange={() => switchTheme()}
 			checked={checked}
-			checkedIcon={false}
-			uncheckedIcon={false}
+			checkedIcon={
+				<div className='w-full h-full flex items-center justify-center'>
+					<MdLightbulb color='white' />
+				</div>
+			}
+			uncheckedIcon={
+				<div className='w-full h-full flex items-center justify-center'>
+					<MdDarkMode />
+				</div>
+			}
 		/>
 	)
 }

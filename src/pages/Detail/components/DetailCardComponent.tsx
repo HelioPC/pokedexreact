@@ -18,6 +18,7 @@ import CardAbilities from './CardAbilities'
 import AnimatedCard from '../../../components/AnimatedCard'
 import LoadingIndicator from '../../../components/LoadingIndicator'
 import { usePokeContext } from '../../../contexts/PokeContext'
+import { useAppTheme } from '../../../contexts/ThemeContext'
 
 type CardComponentProps = {
 	pokemon: Pokemon
@@ -27,6 +28,7 @@ ChartJS.register(ArcElement, Tooltip, Legend)
 
 const DetailCardComponent = ({ pokemon }: CardComponentProps) => {
 	const { promiseInProgress } = usePromiseTracker()
+	const { theme } = useAppTheme()
 	const [pokemonSpecies, setPokemonSpecies] = useState<Species>()
 	const [descriptions, setDescriptions] = useState<string[]>([])
 	const { state } = usePokeContext()
@@ -126,19 +128,43 @@ const DetailCardComponent = ({ pokemon }: CardComponentProps) => {
 								layoutId01='bs01'
 								layoutId02='bs02'
 								classProps01='w-full h-full flex justify-center items-center p-4'
-								classProps02='h-auto min-h-[50vh] md:w-2/3 w-[95%] absolute md:top-[50%] top-[90%] md:left-[20%] bg-white rounded-lg shadow-xl border-2 border-solid border-[#EDEDED] z-10'
+								classProps02='h-auto min-h-[50vh] md:w-2/3 w-[95%] absolute md:top-[50%] top-[90%] md:left-[20%] rounded-lg shadow-xl z-10'
 								children1={
 									<div className='w-full h-auto flex flex-wrap justify-center items-center shadow-lg gap-5 py-10'>
-										<span className='text-sm font-bold bg-[#EDEDED] p-2 shadow-lg rounded-lg'>
+										<span
+											className='text-sm font-bold p-2 shadow-lg rounded-lg'
+											style={{
+												backgroundColor: `${theme.colors.cardSecundary}`,
+												color: `${theme.colors.textPrimary}`
+											}}
+										>
 											Dimensions
 										</span>
-										<span className='text-sm font-bold bg-[#EDEDED] p-2 shadow-lg rounded-lg'>
+										<span
+											className='text-sm font-bold p-2 shadow-lg rounded-lg'
+											style={{
+												backgroundColor: `${theme.colors.cardSecundary}`,
+												color: `${theme.colors.textPrimary}`
+											}}
+										>
 											Breeding
 										</span>
-										<span className='text-sm font-bold bg-[#EDEDED] p-2 shadow-lg rounded-lg'>
+										<span
+											className='text-sm font-bold p-2 shadow-lg rounded-lg'
+											style={{
+												backgroundColor: `${theme.colors.cardSecundary}`,
+												color: `${theme.colors.textPrimary}`
+											}}
+										>
 											Egg Info
 										</span>
-										<span className='text-sm font-bold bg-[#EDEDED] p-2 shadow-lg rounded-lg'>
+										<span
+											className='text-sm font-bold p-2 shadow-lg rounded-lg'
+											style={{
+												backgroundColor: `${theme.colors.cardSecundary}`,
+												color: `${theme.colors.textPrimary}`
+											}}
+										>
 											Training Info
 										</span>
 									</div>

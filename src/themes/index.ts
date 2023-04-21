@@ -5,7 +5,7 @@ export const light: DefaultTheme['theme'] = {
 
 	colors: {
 		primary: '#000000',
-		mainBg: '#F2F3FA',
+		mainBg: '#FAFAFA',
 		button: '#121212',
 		textButton: '#FFFFFF',
 		barBackground: '#FFFFFF',
