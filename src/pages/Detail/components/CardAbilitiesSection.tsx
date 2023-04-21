@@ -2,6 +2,7 @@ import React from 'react'
 import AnimatedCard from '../../../components/AnimatedCard'
 import Carousel from '../../../components/Carousel'
 import { Pokemon } from '../../../types/core'
+import { useAppTheme } from '../../../contexts/ThemeContext'
 
 type Props = {
 	pokemon: Pokemon
@@ -11,6 +12,7 @@ type Props = {
 }
 
 const CardAbilitiesSection = ({ pokemon, abilitiesDescription }: Props) => {
+	const { theme } = useAppTheme()
 	return (
 		<AnimatedCard
 			id='ablt'
@@ -24,7 +26,14 @@ const CardAbilitiesSection = ({ pokemon, abilitiesDescription }: Props) => {
 					<div className='flex justify-center items-center flex-wrap gap-4'>
 						{
 							pokemon.abilities.map((a, i) => (
-								<p key={i} className='text-sm font-bold bg-[#EDEDED] shadow-md p-2 rounded-lg'>
+								<p
+									key={i}
+									className='text-sm font-bold shadow-md p-2 rounded-lg'
+									style={{
+										backgroundColor: `${theme.colors.cardSecundary}`,
+										color: `${theme.colors.textPrimary}`
+									}}
+								>
 									{a.ability.name}
 								</p>
 							))
@@ -36,7 +45,14 @@ const CardAbilitiesSection = ({ pokemon, abilitiesDescription }: Props) => {
 				<Carousel id='ca'>
 					{pokemon.abilities.map((a, i) => (
 						<div key={i} className='w-full h-full flex flex-col justify-center items-center gap-5'>
-							<p className='text font-bold bg-[#EDEDED] shadow-md p-2 rounded-lg'>
+							<p
+								key={i}
+								className='text-sm font-bold shadow-md p-2 rounded-lg'
+								style={{
+									backgroundColor: `${theme.colors.cardSecundary}`,
+									color: `${theme.colors.textPrimary}`
+								}}
+							>
 								{a.ability.name}
 							</p>
 							<p className='text-xs text-center font-bold'>

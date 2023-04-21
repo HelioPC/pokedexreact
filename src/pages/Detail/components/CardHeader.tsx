@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { MdKeyboardArrowLeft } from 'react-icons/md'
 import { formatNumber } from '../../../helpers/numbers'
 
 import { DetailCardHeader } from '../style'
@@ -13,7 +14,8 @@ type Props = {
 const CardHeader = ({ imageUrl, name, id }: Props) => {
 	return (
 		<DetailCardHeader className='shadow xs:justify-between justify-center'>
-			<Link to='/'>
+			<Link to='/' className='flex items-center'>
+				<MdKeyboardArrowLeft size={25} />
 				<img
 					src={imageUrl}
 					className='h-8 rounded-full'

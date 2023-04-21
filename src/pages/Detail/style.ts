@@ -1,32 +1,29 @@
-import styled from 'styled-components'
+import styled, { DefaultTheme } from 'styled-components'
 
-export const DetailScreen = styled.div`
+export const DetailScreen = styled.div<{ theme: DefaultTheme }>`
     width: 100%;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    padding: 50px 20px;
-
-    @media (max-width: 768px) {
-        padding: 0;
-    }
+    background-color: ${props => props.theme.theme.colors.mainBg};
+    color: ${props => props.theme.theme.colors.textPrimary};
+    padding: 0;
 `
 
 export const DetailCard = styled.div`
     width: 100%;
     height: 100%;
-    background-color: white;
     display: flex;
     flex-direction: column;
 `
 
-export const DetailCardHeader = styled.div`
+export const DetailCardHeader = styled.div<{ theme: DefaultTheme }>`
     width: 100%;
     height: 50px;
     padding: 16px;
     display: flex;
     align-items: center;
-    background-color: #FAFAFA;
+    background-color: ${props => props.theme.theme.colors.barBackground};
 `
 
 export const DetailCardBody = styled.div`
@@ -36,12 +33,12 @@ export const DetailCardBody = styled.div`
     flex: 1;
 `
 
-export const DetailCardFooter = styled.div`
+export const DetailCardFooter = styled.div<{ theme: DefaultTheme }>`
     width: 100%;
     height: 80px;
     padding: 0 20px;
     gap: 10px;
     display: flex;
     align-items: center;
-    background-color: #EAEAEA;
+    background-color: ${props => props.theme.theme.colors.barBackground};
 `

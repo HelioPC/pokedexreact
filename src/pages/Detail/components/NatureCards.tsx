@@ -4,6 +4,7 @@ import AnimatedCard from '../../../components/AnimatedCard'
 
 import TypeLabel from '../../../components/TypeLabel'
 import { Pokemon, Type } from '../../../types/core'
+import { useAppTheme } from '../../../contexts/ThemeContext'
 
 type Props = {
 	pokemon: Pokemon
@@ -55,9 +56,15 @@ const NatureCompactCard = ({ pokemon, types }: Props) => {
 }
 
 const NatureExpandedCard = ({ pokemon, types }: Props) => {
+	const { theme } = useAppTheme()
 	return (
 		<div className='w-full h-full flex flex-wrap justify-center items-center xs:gap-10 gap-4'>
-			<div className='flex flex-col items-center p-5 bg-white shadow-lg rounded-lg'>
+			<div
+				className='flex flex-col items-center p-5 shadow-lg rounded-lg'
+				style={{
+					backgroundColor: `${theme.colors.cardSecundary}`
+				}}
+			>
 				<span className='font-bold'>Type</span>
 				<span className='text-xs text-center text-[#AAA] mb-4'>{'(Kind of nature)'}</span>
 				<div className='flex flex-col gap-2'>
@@ -68,7 +75,12 @@ const NatureExpandedCard = ({ pokemon, types }: Props) => {
 					}
 				</div>
 			</div>
-			<div className='flex flex-col items-center p-5 bg-white shadow-lg rounded-lg'>
+			<div
+				className='flex flex-col items-center p-5 shadow-lg rounded-lg'
+				style={{
+					backgroundColor: `${theme.colors.cardSecundary}`
+				}}
+			>
 				<span className='font-bold'>Weakness</span>
 				<span className='text-xs text-[#AAA] mb-4'>{'(Get damage from)'}</span>
 				<div className='flex xs:gap-4 gap-2'>
@@ -102,7 +114,12 @@ const NatureExpandedCard = ({ pokemon, types }: Props) => {
 					}
 				</div>
 			</div>
-			<div className='flex flex-col items-center p-5 bg-white shadow-lg rounded-lg'>
+			<div
+				className='flex flex-col items-center p-5 shadow-lg rounded-lg'
+				style={{
+					backgroundColor: `${theme.colors.cardSecundary}`
+				}}
+			>
 				<span className='font-bold'>Toughness</span>
 				<span className='text-xs text-[#AAA] mb-4'>{'(Cause damage to)'}</span>
 				<div className='flex xs:gap-4 gap-2'>

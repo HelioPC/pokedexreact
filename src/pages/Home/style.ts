@@ -1,8 +1,10 @@
-import styled from 'styled-components'
+import styled, { DefaultTheme } from 'styled-components'
 
-export const HomeScreen = styled.div`
+export const HomeScreen = styled.div<{ theme: DefaultTheme }>`
     width: 100%;
     height: 100%;
+    background-color: ${props => props.theme.theme.colors.mainBg};
+    color: ${props => props.theme.theme.colors.textPrimary};
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -13,27 +15,36 @@ export const HomeScreen = styled.div`
     }
 `
 
-export const HomeInputArea = styled.div`
+export const HomeInputArea = styled.div<{ theme: DefaultTheme }>`
     display: flex;
     flex-direction: column;
     gap: 35px;
     margin: 0 0 40px 0;
+    
+    &:has(> div input:focus) {
+        box-shadow: 0px 0px 34px -5px rgba(0,0,0,0.2);
+    }
 
     div {
         width: 100%;
         height: 46px;
-        background-color: #FFF;
+        background-color: ${props => props.theme.theme.colors.barBackground};
+        color: ${props => props.theme.theme.colors.textPrimary};
         display: flex;
         align-items: center;
         justify-content: center;
         border-radius: 4px;
+        
+        svg {
+            color: ${props => props.theme.theme.colors.textPrimary};
+        }
 
         input {
             width: 100%;
             background-color: transparent;
             border: 0;
             height: 46px;
-            color: #000;
+            color: ${props => props.theme.theme.colors.textPrimary};
             outline: none;
             font-size: 14px;
         }
@@ -71,16 +82,31 @@ export const HomeMainHeader = styled.div`
     background-color: white;
 `
 
-export const HomeButton = styled.button`
+export const HomeButton = styled.button<{ theme: DefaultTheme }>`
     width: 128px;
     height: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: black;
-    color: white;
+    background-color: ${props => props.theme.theme.colors.button};
+    color: ${props => props.theme.theme.colors.textButton};
     border-radius: 8px;
     padding: 8px;
+`
+
+export const HomeSelectOption = styled.select<{ theme: DefaultTheme }>`
+    width: 128px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: ${props => props.theme.theme.colors.button};
+    color: ${props => props.theme.theme.colors.textButton};
+    border-radius: 8px;
+    padding: 8px;
+    margin: 12px;
+    text-align: center;
+    font-size: 14px;
 `
 
 export const HomeGrid = styled.div<{ length: number }>`
