@@ -11,6 +11,12 @@ export const AppThemeProvider = ({ children }: AppThemeProps) => {
 	const [theme, setTheme] = useState(localTheme ? JSON.parse(localTheme) : light)
 
 	const switchTheme = () => {
+		localStorage.setItem(
+			'pokemonAppTheme',
+			theme.name === 'light' ?
+				JSON.stringify(dark) :
+				JSON.stringify(light)
+		)
 		setTheme(theme.name === 'light' ? dark : light)
 	}
 
