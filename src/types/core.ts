@@ -95,3 +95,8 @@ export type Pokemon = {
         front_shiny_female: string
     }
 }
+
+export type PokemonName = {
+    name: string
+    url: string
+}

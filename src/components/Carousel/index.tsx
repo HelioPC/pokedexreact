@@ -52,11 +52,11 @@ const Carousel = ({ children, id }: Props) => {
 							data-tooltip-id={i.toString() + id}
 							className={`
 								h-3 w-3 rounded-[50%] cursor-pointer
-								${i == index ? 'bg-white border-2 border-solid border-black' : 'bg-black'}
+								border-2 border-black border-solid
+								${i == index ? 'bg-white' : 'bg-black'}
 							`}
 							style={{
 								backgroundColor: `${i == index ? theme.colors.textPrimary : theme.colors.mainBg}`,
-								border: `solid 2px ${i == index ? theme.colors.mainBg : theme.colors.textPrimary}`,
 							}}
 							onClick={() => setIndex(i)}
 						/>

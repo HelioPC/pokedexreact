@@ -36,7 +36,7 @@ const PokemonCard = ({ name, pokeData }: PokemonCardProps) => {
 			<Tilt>
 				<Link to={`/pokemon/${pokemon.id}`} state={{ fromApp: true, pokemon: pokemon }}>
 					<div
-						className='w-full h-full max-w-[200px] rounded-md hover:shadow-xl shadow-lg duration-300 cursor-pointer pb-2'
+						className='w-full h-full sm:max-w-[200px] rounded-md hover:shadow-xl shadow-lg duration-300 cursor-pointer pb-2'
 						style={{
 							backgroundColor: `${theme.colors.cardBackground}`
 						}}
