@@ -2,8 +2,6 @@
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
-	user-select: none;
-	/*'Segoe', 'Segoe UI', Arial, 'sans-serif'*/
 	font-family: Verdana, Geneva, sans-serif !important;
 	text-rendering: optimizeLegibility;
 	-webkit-font-smoothing: antialiased;
@@ -53,3 +51,27 @@ li {
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.loading-dots {
+	width: 10px;
+	height: 10px;
+	border-radius: 50%;
+	background: #282936;
+	box-shadow: 16px 0 #282936, -16px 0 #282936;
+	animation: loading-dots 0.8s ease-in-out infinite alternate;
+}
+
+@keyframes loading-dots {
+	0% {
+		box-shadow: 16px 0 #282936, -16px 0 #282936;
+		background: #9ca3af;
+	}
+	50% {
+		box-shadow: 16px 0 #9ca3af, -16px 0 #282936;
+		background: #282936;
+	}
+	100% {
+		box-shadow: 16px 0 #282936, -16px 0 #9ca3af;
+		background: #282936;
+	}
+}

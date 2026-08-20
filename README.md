@@ -43,6 +43,6 @@ A website to view all pokemons and their details. UI made by me 😅
 
 ## Notes
 
-- Do not access the subroutes on url bar
-- Any bug found, please create an issue or PR
-- Before creating an issue or PR, first try to reload the page to see if the bug persist
+- Detail pages are shareable: `/pokemon/25` works on refresh and from the URL bar.
+- Infinite scroll loads more Pokémon as you reach the bottom of the list (search pauses that).
+- Any bug found, please create an issue or PR.
