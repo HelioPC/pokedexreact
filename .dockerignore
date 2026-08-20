@@ -1,2 +1,9 @@
 node_modules
 dist
+.git
+.gitignore
+*.md
+screenshots
+.vscode
+.idea
+.DS_Store
